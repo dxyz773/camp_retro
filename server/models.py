@@ -21,9 +21,6 @@ class Camper(db.Model, SerializerMixin):
     treasure_chest = db.relationship(
         "TreasureChest", back_populates="camper", cascade="all, delete-orphan"
     )
-    piggy_bank = db.relationship(
-        "PiggyBank", back_populates="camper", cascade="all, delete-orphan"
-    )
     games = db.relationship(
         "Game", back_populates="camper", cascade="all, delete-orphan"
     )
@@ -33,6 +30,18 @@ class Camper(db.Model, SerializerMixin):
     prizes = association_proxy("treasure_chest", "prizes")
     tokens = association_proxy("games", "tokens")
     # Serialize Rules
+    serialize_rules = (
+        "-created",
+        "-updated",
+        "-lunch_box.camper",
+        "-treasure_chest.camper",
+        "-games.camper",
+    )
+
+    # __repr__
+    def __repr__(self):
+        return f"<Camper {self.username}, camper_name: {self.camper_name}>"
+
     # Validations
 
 
@@ -52,6 +61,18 @@ class Lunchbox(db.Model, SerializerMixin):
     snack = db.relationship("Snack", back_populates="lunch_box")
     drink = db.relationship("Drink", back_populates="lunch_box")
     # Serialize Rules
+    serialize_rules = (
+        "-created",
+        "-updated",
+        "-camper.lunch_box",
+        "-snack.lunch_box",
+        "-drink.lunch_box",
+    )
+
+    # __repr__
+    def __repr__(self):
+        return f"<Lunchbox: {self.id}>"
+
     # Validations
 
 
@@ -70,6 +91,12 @@ class Snack(db.Model, SerializerMixin):
     # Association Proxy
     camper = association_proxy("lunch_box", "camper")
     # Serialize Rules
+    serialize_rules = ("-created", "-updated", "-lunch_box.snack")
+
+    # __repr__
+    def __repr__(self):
+        return f"<Snack {self.name}>"
+
     # Validations
 
 
@@ -88,6 +115,12 @@ class Drink(db.Model, SerializerMixin):
     # Association Proxy
     camper = association_proxy("lunch_box", "camper")
     # Serialize Rules
+    serialize_rules = ("-created", "-updated", "-lunch_box.drink")
+
+    # __repr__
+    def __repr__(self):
+        return f"<Drink {self.name}>"
+
     # Validations
 
 
@@ -104,9 +137,18 @@ class TreasureChest(db.Model, SerializerMixin):
     # Relationships
     camper = db.relationship("Camper", back_populates="treasure_chest")
     prizes = db.relationship("Prize", back_populates="treasure_chest")
-    # Association Proxy
-
     # Serialize Rules
+    serialize_rules = (
+        "-created",
+        "-updated",
+        "-camper.treasure_chest",
+        "-prizes.treasire_chest",
+    )
+
+    # __repr__
+    def __repr__(self):
+        return f"<TreasureChest: {self.id}>"
+
     # Validations
 
 
@@ -116,16 +158,24 @@ class Prize(db.Model, SerializerMixin):
     created = db.Column(db.DateTime, server_default=db.func.now())
     updated = db.Column(db.DateTime, onupdate=db.func.now())
     # Class Specific
-    name = db.Column(db.String, nullabe=False)
+    name = db.Column(db.String, nullable=False)
     image = db.Column(db.String, nullable=False)
     token_price = db.Column(db.Integer, nullable=False)
     # Foreign Key(s)
     treasure_chest_id = db.Column(db.Integer, db.ForeignKey("treasure_chests.id"))
     # Relationships
-    treasure_chest = db.relationship("TreasureChest", back_populates="prizes")
+    treasure_chest = db.relationship(
+        "TreasureChest", back_populates="prizes", cascade="all, delete-orphan"
+    )
     # Association Proxy
     campers = association_proxy("treasure_chest", "camper")
     # Serialize Rules
+    serialize_rules = ("-created", "-updated", "-treasure_chest.prizes")
+
+    # __repr__
+    def __repr__(self):
+        return f"<Prize {self.name}: ${self.token_price}>"
+
     # Validations
 
 
@@ -138,21 +188,26 @@ class Game(db.Model, SerializerMixin):
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=False)
     rules = db.Column(db.Text, nullable=False)
-    camper_win = db.Column(db.Boolean)
+    win_status = db.Column(db.Boolean)
     image1 = db.Column(db.String, nullable=False)
-    image2 = db.Column(db.String, nullable=False)
-    image3 = db.Column(db.String, nullable=False)
-    image4 = db.Column(db.String, nullable=False)
+    image2 = db.Column(db.String)
+    image3 = db.Column(db.String)
+    image4 = db.Column(db.String)
     # Foreign Key(s)
     camper_id = db.Column(db.Integer, db.ForeignKey("campers.id"))
+    token_id = db.Column(db.Integer, db.ForeignKey("tokens.id"))
     # Relationship
 
-    camper = db.relationship(
-        "Camper", back_populates="games", cascade="all, delete-orphan"
-    )
+    camper = db.relationship("Camper", back_populates="games")
     tokens = db.relationship("Token", back_populates="game")
-    # Validations
     # Serialize rules
+    serialize_rules = ("-created", "-updated", "-camper.games", "-tokens.game")
+
+    # __repr__
+    def __repr__(self):
+        return f"<Game {self.name}>"
+
+    # Validations
 
 
 class Token(db.Model, SerializerMixin):
@@ -163,8 +218,6 @@ class Token(db.Model, SerializerMixin):
     # Class Specific
     image = db.Column(db.String, nullable=False)
     amount = db.Column(db.Integer, nullable=False, default=0)
-    # Foreign Key(s)
-    game_id = db.Column(db.Integer, db.ForeignKey("games.id"))
     # Relationships
     game = db.relationship(
         "Game", back_populates="tokens", cascade="all, delete-orphan"
@@ -172,16 +225,29 @@ class Token(db.Model, SerializerMixin):
     # Association Proxy
     camper = association_proxy("game", "camper")
     # Serialize Rules
+    serialize_rules = ("-created", "-updated", "-game.tokens")
+
+    # __repr__
+    def __repr__(self):
+        return f"<Token {self.amount}>"
+
     # Validations
 
 
-class CampfireStories(db.Model, SerializerMixin):
+class CampfireStory(db.Model, SerializerMixin):
     __tablename__ = "campfire_stories"
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, server_default=db.func.now())
     updated = db.Column(db.DateTime, onupdate=db.func.now())
     # Class Specific
     title = db.Column(db.String)
-    image = db.Column(db.String, nullable=False)
     description = db.Column(db.Text, nullable=False)
+    image1 = db.Column(db.String, nullable=False)
+    image2 = db.Column(db.String)
+    image3 = db.Column(db.String)
     # Serialize Rules
+    serialize_rules = ("-created", "-updated")
+
+    # __repr__
+    def __repr__(self):
+        return f"<CampfireStory {self.title}>"

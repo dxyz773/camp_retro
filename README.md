@@ -1,6 +1,10 @@
 # 🌲🌖 camp retro 🏕️
 
---
+## ERD
+
+## <img src="images/ERD.png">
+
+---
 
 ## trello
 
