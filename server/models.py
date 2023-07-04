@@ -24,14 +24,14 @@ class Camper(db.Model, SerializerMixin):
     piggy_bank = db.relationship(
         "PiggyBank", back_populates="camper", cascade="all, delete-orphan"
     )
-    hobbies = db.relationship(
-        "Hobby", back_populates="camper", cascade="all, delete-orphan"
+    games = db.relationship(
+        "Game", back_populates="camper", cascade="all, delete-orphan"
     )
     # Association Proxy
     snack = association_proxy("lunch_box", "snack")
     drink = association_proxy("lunch_box", "drink")
     prizes = association_proxy("treasure_chest", "prizes")
-    tokens = association_proxy("piggy_bank", "tokens")
+    tokens = association_proxy("games", "tokens")
     # Serialize Rules
     # Validations
 
@@ -100,7 +100,7 @@ class TreasureChest(db.Model, SerializerMixin):
     image = db.Column(db.String, nullable=False)
     # Foreign Key(s)
     camper_id = db.Column(db.Integer, db.ForeignKey("campers.id"))
-    prize_id = db.Column(db.Integer, db.ForeignKey("prizes.id"))
+
     # Relationships
     camper = db.relationship("Camper", back_populates="treasure_chest")
     prizes = db.relationship("Prize", back_populates="treasure_chest")
@@ -119,6 +119,8 @@ class Prize(db.Model, SerializerMixin):
     name = db.Column(db.String, nullabe=False)
     image = db.Column(db.String, nullable=False)
     token_price = db.Column(db.Integer, nullable=False)
+    # Foreign Key(s)
+    treasure_chest_id = db.Column(db.Integer, db.ForeignKey("treasure_chests.id"))
     # Relationships
     treasure_chest = db.relationship("TreasureChest", back_populates="prizes")
     # Association Proxy
@@ -127,21 +129,30 @@ class Prize(db.Model, SerializerMixin):
     # Validations
 
 
-class PiggyBank(db.Model, SerializerMixin):
-    __tablename__ = "piggy_banks"
+class Game(db.Model, SerializerMixin):
+    __tablename__ = "games"
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, server_default=db.func.now())
     updated = db.Column(db.DateTime, onupdate=db.func.now())
     # Class Specific
-    image = db.Column(db.String, nullable=False)
+    name = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    rules = db.Column(db.Text, nullable=False)
+    camper_win = db.Column(db.Boolean)
+    image1 = db.Column(db.String, nullable=False)
+    image2 = db.Column(db.String, nullable=False)
+    image3 = db.Column(db.String, nullable=False)
+    image4 = db.Column(db.String, nullable=False)
     # Foreign Key(s)
     camper_id = db.Column(db.Integer, db.ForeignKey("campers.id"))
-    token_id = db.Column(db.Integer, db.ForeignKey("tokens.id"))
-    # Relationships
-    camper = db.relationship("Camper", back_populates="piggy_bank")
-    tokens = db.relationship("Token", back_populates="piggy_bank")
-    # Serialize Rules
+    # Relationship
+
+    camper = db.relationship(
+        "Camper", back_populates="games", cascade="all, delete-orphan"
+    )
+    tokens = db.relationship("Token", back_populates="game")
     # Validations
+    # Serialize rules
 
 
 class Token(db.Model, SerializerMixin):
@@ -151,54 +162,26 @@ class Token(db.Model, SerializerMixin):
     updated = db.Column(db.DateTime, onupdate=db.func.now())
     # Class Specific
     image = db.Column(db.String, nullable=False)
-    amount = db.Column(db.String, nullable=False, default=0)
-    # Relationships
-    piggy_bank = db.relationship("PiggyBank", back_populates="tokens")
-    # Association Proxy
-    camper = association_proxy("piggy_bank", "camper")
-    # Serialize Rules
-    # Validations
-
-
-class Hobby(db.Model, SerializerMixin):
-    __tablename__ = "hobbies"
-    id = db.Column(db.Integer, primary_key=True)
-    created = db.Column(db.DateTime, server_default=db.func.now())
-    updated = db.Column(db.DateTime, onupdate=db.func.now())
-    # Class Specific
-    image = db.Column(db.String, nullable=False)
-    title = db.Column(db.String, nullable=False)
+    amount = db.Column(db.Integer, nullable=False, default=0)
     # Foreign Key(s)
-    camper_id = db.Column(db.Integer, db.ForeignKey("campers.id"))
+    game_id = db.Column(db.Integer, db.ForeignKey("games.id"))
     # Relationships
-    camper = db.relationship("Camper", back_populates="hobbies")
+    game = db.relationship(
+        "Game", back_populates="tokens", cascade="all, delete-orphan"
+    )
+    # Association Proxy
+    camper = association_proxy("game", "camper")
     # Serialize Rules
     # Validations
 
 
 class CampfireStories(db.Model, SerializerMixin):
-    __tablename__ = "hobbies"
+    __tablename__ = "campfire_stories"
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, server_default=db.func.now())
     updated = db.Column(db.DateTime, onupdate=db.func.now())
     # Class Specific
+    title = db.Column(db.String)
     image = db.Column(db.String, nullable=False)
     description = db.Column(db.Text, nullable=False)
     # Serialize Rules
-    # Validations
-
-
-class Friendship(db.Model, SerializerMixin):
-    __tablename__ = "friendships"
-    id = db.Column(db.Integer, primary_key=True)
-    created = db.Column(db.DateTime, server_default=db.func.now())
-    updated = db.Column(db.DateTime, onupdate=db.func.now())
-    # Class Specific
-    description = db.Column(db.String, nullable=False)
-    # Foreign Key(s)
-    camper_id = db.Column(db.Integer, db.ForeignKey("campers.id"))
-    # Relationship
-    camper1 = db.relationship("Camper", back_populates="friends")
-    camper2 = db.relationship("Camper", back_populates="friends")
-    # Serialize Rules
-    # Validations
