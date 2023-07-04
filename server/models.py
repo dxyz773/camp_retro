@@ -158,7 +158,7 @@ class Prize(db.Model, SerializerMixin):
     created = db.Column(db.DateTime, server_default=db.func.now())
     updated = db.Column(db.DateTime, onupdate=db.func.now())
     # Class Specific
-    name = db.Column(db.String, nullabe=False)
+    name = db.Column(db.String, nullable=False)
     image = db.Column(db.String, nullable=False)
     token_price = db.Column(db.Integer, nullable=False)
     # Foreign Key(s)

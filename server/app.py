@@ -9,7 +9,7 @@ from models import (
     Prize,
     Game,
     Token,
-    CampfireStories,
+    CampfireStory,
 )
 from config import app, db, api
 
