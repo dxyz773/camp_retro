@@ -293,6 +293,7 @@ class Games(Resource):
                     "image4",
                     "token_id",
                     "tokens",
+                    "win_status",
                 )
             )
             for game in Game.query.all()
@@ -300,7 +301,43 @@ class Games(Resource):
         return make_response(games, 200)
 
     def post(self):
-        pass
+        data = request.get_json()
+
+        try:
+            new_game = Game(
+                name=data.get("name"),
+                description=data.get("description"),
+                rules=data.get("rules"),
+                win_status=data.get("win_status"),
+                image1=data.get("image1"),
+                camper_id=data.get("camper_id"),
+                token_id=data.get("token_id"),
+            )
+
+            db.session.add(new_game)
+            db.session.commit()
+
+        except:
+            return make_response({"errors": ["validation errors"]}, 400)
+
+        response = make_response(
+            new_game.to_dict(
+                only=(
+                    "id",
+                    "name",
+                    "description",
+                    "rules",
+                    "image1",
+                    "image2",
+                    "image3",
+                    "image4",
+                    "token_id",
+                    "tokens",
+                )
+            ),
+            201,
+        )
+        return response
 
 
 api.add_resource(Games, "/games")
@@ -406,7 +443,18 @@ class CampfireStoryById(Resource):
 
 
 api.add_resource(CampfireStoryById, "/campfire_stories/<int:id>")
-
+# ---------------------------------------------------------------------------|
+#                               LOGIN
+# ---------------------------------------------------------------------------|
+# ---------------------------------------------------------------------------|
+#                               SIGNUP
+# ---------------------------------------------------------------------------|
+# ---------------------------------------------------------------------------|
+#                               CHECK SESSION
+# ---------------------------------------------------------------------------|
+# ---------------------------------------------------------------------------|
+#                               LOGOUT
+# ---------------------------------------------------------------------------|
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)
