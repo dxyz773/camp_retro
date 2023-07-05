@@ -33,22 +33,6 @@ class Campers(Resource):
 
         return make_response(campers, 200)
 
-    def post(self):
-        data = request.get_json()
-        new_camper = Camper(
-            username=data.get("username"),
-            _password_hash=data.get("_password_hash"),
-            camper_name=data.get("camper_name"),
-            image=data.get("image"),
-            bio=data.get("bio"),
-        )
-        try:
-            db.session.add(new_camper)
-            db.session.commit()
-        except:
-            abort(422, "Errors creating Camper")
-        return make_response(new_camper.to_dict(), 201)
-
 
 api.add_resource(Campers, "/campers")
 
@@ -126,7 +110,7 @@ class LunchBoxById(Resource):
             db.session.add(lunch_box)
             db.session.commit()
         except:
-            abort(422, "Errors updading Camper")
+            abort(422, "Errors updading Lunchbox")
         return make_response(
             lunch_box.to_dict(
                 only=(
@@ -206,7 +190,7 @@ class TreasureChestById(Resource):
     def get(self, id):
         treasure = TreasureChest.query.filter_by(id=id).first()
         if not treasure:
-            abort(404, "Camper not found")
+            abort(404, "Treasure not found")
 
         treasure_dict = treasure.to_dict(
             only=("id", "image", "prizes", "camper_id", "camper.camper_name")
@@ -215,6 +199,213 @@ class TreasureChestById(Resource):
 
 
 api.add_resource(TreasureChestById, "/treasure_chests/<int:id>")
+
+# ---------------------------------------------------------------------------|
+#                             PRIZES
+# ---------------------------------------------------------------------------|
+
+
+class Prizes(Resource):
+    def get(self):
+        prizes = [
+            prize.to_dict(
+                only=(
+                    "id",
+                    "name",
+                    "image",
+                    "token_price",
+                    "treasure_chest_id",
+                    "treasure_chest",
+                )
+            )
+            for prize in Prize.query.all()
+        ]
+        return make_response(prizes, 200)
+
+
+api.add_resource(Prizes, "/prizes")
+
+
+class PrizeById(Resource):
+    def get(self, id):
+        prize = Prize.query.filter_by(id=id).first()
+        if not prize:
+            abort(404, "Prize not found")
+
+        prize_dict = prize.to_dict(
+            only=(
+                "id",
+                "name",
+                "image",
+                "token_price",
+                "treasure_chest_id",
+                "treasure_chest.image",
+            )
+        )
+        return make_response(prize_dict, 200)
+
+    def patch(self, id):
+        prize = Prize.query.filter_by(id=id).first()
+        data = request.get_json()
+        if not prize:
+            abort(404, "Prize not found")
+        try:
+            for attr in data:
+                setattr(prize, attr, data.get(attr))
+
+            db.session.add(prize)
+            db.session.commit()
+        except:
+            abort(422, "Errors updading Prize")
+        return make_response(
+            prize.to_dict(
+                only=(
+                    "id",
+                    "name",
+                    "image",
+                    "token_price",
+                    "treasure_chest_id",
+                    "treasure_chest.image",
+                )
+            ),
+            200,
+        )
+
+
+api.add_resource(PrizeById, "/prizes/<int:id>")
+
+
+# ---------------------------------------------------------------------------|
+#                               GAMES
+# ---------------------------------------------------------------------------|
+class Games(Resource):
+    def get(self):
+        games = [
+            game.to_dict(
+                only=(
+                    "id",
+                    "name",
+                    "description",
+                    "rules",
+                    "image1",
+                    "image2",
+                    "image3",
+                    "image4",
+                    "token_id",
+                    "tokens",
+                )
+            )
+            for game in Game.query.all()
+        ]
+        return make_response(games, 200)
+
+    def post(self):
+        pass
+
+
+api.add_resource(Games, "/games")
+
+
+class GameById(Resource):
+    def get(self, id):
+        game = Game.query.filter_by(id=id).first()
+        if not game:
+            abort(404, "Game not found")
+
+        game_dict = game.to_dict(
+            only=(
+                "id",
+                "name",
+                "description",
+                "rules",
+                "win_status",
+                "image1",
+                "image2",
+                "image3",
+                "image4",
+                "token_id",
+                "tokens",
+                "camper.camper_name",
+            )
+        )
+        return make_response(game_dict, 200)
+
+    def patch(self, id):
+        game = Game.query.filter_by(id=id).first()
+        data = request.get_json()
+        if not game:
+            abort(404, "Game not found")
+        try:
+            for attr in data:
+                setattr(game, attr, data.get(attr))
+
+            db.session.add(game)
+            db.session.commit()
+        except:
+            abort(422, "Errors updading Prize")
+        return make_response(
+            game.to_dict(
+                only=(
+                    "id",
+                    "name",
+                    "description",
+                    "rules",
+                    "win_status",
+                    "image1",
+                    "image2",
+                    "image3",
+                    "image4",
+                    "token_id",
+                    "tokens",
+                )
+            ),
+            200,
+        )
+
+
+api.add_resource(GameById, "/games/<int:id>")
+
+
+# ---------------------------------------------------------------------------|
+#                               TOKENS
+# ---------------------------------------------------------------------------|
+class TokensById(Resource):
+    def get(self, id):
+        token = Token.query.filter_by(id=id).first()
+        if not token:
+            abort(404, "Token not found")
+
+        token_dict = token.to_dict(only=("id", "image", "amount", "game.name"))
+        return make_response(token_dict, 200)
+
+
+api.add_resource(TokensById, "/tokens/<int:id>")
+
+# ---------------------------------------------------------------------------|
+#                            CAMPFIRE STORIES
+# ---------------------------------------------------------------------------|
+
+
+class CampfireStories(Resource):
+    def get(self):
+        stories = [story.to_dict() for story in CampfireStory.query.all()]
+        return make_response(stories, 200)
+
+
+api.add_resource(CampfireStories, "/campfire_stories")
+
+
+class CampfireStoryById(Resource):
+    def get(self, id):
+        story = CampfireStory.query.filter_by(id=id).first()
+        if not story:
+            abort(404, "Campfire story not found")
+
+        story_dict = story.to_dict()
+        return make_response(story_dict, 200)
+
+
+api.add_resource(CampfireStoryById, "/campfire_stories/<int:id>")
 
 
 if __name__ == "__main__":
