@@ -22,6 +22,29 @@ A Camp Retro User can:
 
 ---
 
+## Client Side Routes
+
+| Client Route  | Component          |
+| ------------- | ------------------ |
+| /             | Home.js            |
+| /login        | Login.js           |
+| /signup       | Signup.js          |
+| /camp         | Camp.js            |
+| /camp/cabin   | CampCabin.js       |
+| /treasure     | TreasureChest.js   |
+| /lunchbox     | LunchBox.js        |
+| /games        | Games.js           |
+| /games/:id    | OneGame.js         |
+| /prizes       | PrizeRoom.js       |
+| /prizes/:id   | OnePrize.js        |
+| /snackbar     | SnackBar.js        |
+| /snacks/:id   | Snack.js           |
+| /drinks/:id   | Drink.js           |
+| /campfire     | CampfireStories.js |
+| /campfire/:id | OneStory.js        |
+
+---
+
 ## ERD
 
 ## <img src="images/ERD.png">
