@@ -136,13 +136,15 @@ class TreasureChest(db.Model, SerializerMixin):
 
     # Relationships
     camper = db.relationship("Camper", back_populates="treasure_chest")
-    prizes = db.relationship("Prize", back_populates="treasure_chest")
+    prizes = db.relationship(
+        "Prize", back_populates="treasure_chest", cascade="all, delete-orphan"
+    )
     # Serialize Rules
     serialize_rules = (
         "-created",
         "-updated",
         "-camper.treasure_chest",
-        "-prizes.treasire_chest",
+        "-prizes.treasure_chest",
     )
 
     # __repr__
@@ -164,9 +166,7 @@ class Prize(db.Model, SerializerMixin):
     # Foreign Key(s)
     treasure_chest_id = db.Column(db.Integer, db.ForeignKey("treasure_chests.id"))
     # Relationships
-    treasure_chest = db.relationship(
-        "TreasureChest", back_populates="prizes", cascade="all, delete-orphan"
-    )
+    treasure_chest = db.relationship("TreasureChest", back_populates="prizes")
     # Association Proxy
     campers = association_proxy("treasure_chest", "camper")
     # Serialize Rules
