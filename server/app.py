@@ -19,9 +19,17 @@ def index():
     return f"<h1>Welcome to Camp Retro</h1>"
 
 
+# ---------------------------------------------------------------------------|
+#                               CAMPERS
+# ---------------------------------------------------------------------------|
+
+
 class Campers(Resource):
     def get(self):
-        campers = [camper.to_dict() for camper in Camper.query.all()]
+        campers = [
+            camper.to_dict(only=("id", "camper_name", "username", "image"))
+            for camper in Camper.query.all()
+        ]
 
         return make_response(campers, 200)
 
@@ -66,7 +74,7 @@ class CamperById(Resource):
             db.session.commit()
         except:
             abort(422, "Errors updading Camper")
-        return make_response(camper.to_dict(), 203)
+        return make_response(camper.to_dict(), 200)
 
     def delete(self, id):
         camper = Camper.query.filter_by(id=id).first()
@@ -81,6 +89,9 @@ class CamperById(Resource):
 
 
 api.add_resource(CamperById, "/campers/<int:id>")
+# ---------------------------------------------------------------------------|
+#                             LUNCH BOXES
+# ---------------------------------------------------------------------------|
 
 
 class LunchBoxById(Resource):
@@ -90,13 +101,120 @@ class LunchBoxById(Resource):
             abort(404, "Lunchbox not found")
         return make_response(
             lunch_box.to_dict(
-                only=("id", "drink", "image", "snack", "camper.camper_name")
+                only=(
+                    "id",
+                    "drink",
+                    "image",
+                    "snack",
+                    "camper.camper_name",
+                    "snack_id",
+                    "drink_id",
+                )
+            ),
+            200,
+        )
+
+    def patch(self, id):
+        lunch_box = Lunchbox.query.filter_by(id=id).first()
+        data = request.get_json()
+        if not lunch_box:
+            abort(404, "Lunchbox not found")
+        try:
+            for attr in data:
+                setattr(lunch_box, attr, data.get(attr))
+
+            db.session.add(lunch_box)
+            db.session.commit()
+        except:
+            abort(422, "Errors updading Camper")
+        return make_response(
+            lunch_box.to_dict(
+                only=(
+                    "id",
+                    "drink",
+                    "image",
+                    "snack",
+                    "camper.camper_name",
+                    "snack_id",
+                    "drink_id",
+                )
             ),
             200,
         )
 
 
 api.add_resource(LunchBoxById, "/lunch_boxes/<int:id>")
+# ---------------------------------------------------------------------------|
+#                                  SNACKS
+# ---------------------------------------------------------------------------|
+
+
+class Snacks(Resource):
+    def get(self):
+        snacks = [
+            snack.to_dict(only=("id", "name", "image")) for snack in Snack.query.all()
+        ]
+        return make_response(snacks, 200)
+
+
+api.add_resource(Snacks, "/snacks")
+
+
+class SnackById(Resource):
+    def get(self, id):
+        snack = Snack.query.filter_by(id=id).first()
+        if not snack:
+            abort(404, "Snack not found")
+        snack_dict = snack.to_dict(only=("id", "name", "image"))
+        return make_response(snack_dict, 200)
+
+
+api.add_resource(SnackById, "/snacks/<int:id>")
+
+# ---------------------------------------------------------------------------|
+#                                 DRINKS
+# ---------------------------------------------------------------------------|
+
+
+class Drinks(Resource):
+    def get(self):
+        drinks = [
+            drink.to_dict(only=("id", "name", "image")) for drink in Drink.query.all()
+        ]
+        return make_response(drinks, 200)
+
+
+api.add_resource(Drinks, "/drinks")
+
+
+class DrinkById(Resource):
+    def get(self, id):
+        drink = Drink.query.filter_by(id=id).first()
+        if not drink:
+            abort(404, "Drink not found")
+        drink_dict = drink.to_dict(only=("id", "name", "image"))
+        return make_response(drink_dict, 200)
+
+
+api.add_resource(DrinkById, "/drinks/<int:id>")
+
+
+# ---------------------------------------------------------------------------|
+#                             TREASURE CHESTS
+# ---------------------------------------------------------------------------|
+class TreasureChestById(Resource):
+    def get(self, id):
+        treasure = TreasureChest.query.filter_by(id=id).first()
+        if not treasure:
+            abort(404, "Camper not found")
+
+        treasure_dict = treasure.to_dict(
+            only=("id", "image", "prizes", "camper_id", "camper.camper_name")
+        )
+        return make_response(treasure_dict, 200)
+
+
+api.add_resource(TreasureChestById, "/treasure_chests/<int:id>")
 
 
 if __name__ == "__main__":
