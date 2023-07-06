@@ -19,5 +19,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///camp_retro.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 migrate = Migrate(app, db)
-db.init_app(app)
+app.secret_key = b"\xd9s=\xc1\x03r]\x9f\x84qn\xa5\xb8D\x91\xc0"
 api = Api(app)
+db.init_app(app)

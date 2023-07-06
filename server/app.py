@@ -14,9 +14,15 @@ from models import (
 from config import app, db, api
 
 
-@app.route("/")
-def index():
-    return f"<h1>Welcome to Camp Retro</h1>"
+@app.before_request
+def check_session():
+    print(f"Before request: {session}")
+
+
+@app.after_request
+def check_session_2(response):
+    print(f"After request: {session}")
+    return response
 
 
 # ---------------------------------------------------------------------------|
@@ -33,8 +39,76 @@ class Campers(Resource):
 
         return make_response(campers, 200)
 
+    # ---------------------------------------------------------------------------|
+    #                               SIGNUP
+    # ---------------------------------------------------------------------------|
+    def post(self):
+        data = request.get_json()
+
+        try:
+            camper = Camper(
+                username=data.get("username"),
+                camper_name=data.get("camper_name"),
+                image=data.get("image"),
+                bio=data.get("bio"),
+            )
+
+            db.session.add(camper)
+            db.session.commit()
+
+        except:
+            return make_response({"errors": ["validation errors"]}, 400)
+
+        session["user_id"] = camper.id
+        response = make_response(
+            camper.to_dict(),
+            201,
+        )
+        return response
+
 
 api.add_resource(Campers, "/campers")
+
+
+# ---------------------------------------------------------------------------|
+#                               LOGIN
+# ---------------------------------------------------------------------------|
+@app.route("/login", methods=["POST"])
+def login():
+    username = request.get_json().get("username")
+
+    camper = Camper.query.filter_by(username=username).first()
+    if not camper:
+        abort(401, "Unauthorized")
+    session["user_id"] = camper.id
+    return make_response(camper.to_dict(), 200)
+
+
+# ---------------------------------------------------------------------------|
+#                               LOGOUT
+# ---------------------------------------------------------------------------|
+
+
+@app.route("/logout", methods=["GET"])
+def logout():
+    session["user_id"] = None
+    return make_response("", 204)
+
+
+# ---------------------------------------------------------------------------|
+#                               CHECK SESSION
+# ---------------------------------------------------------------------------|
+@app.route("/authorized-session", methods=["GET"])
+def authorize():
+    camper = Camper.query.filter_by(id=session.get("user_id")).first()
+    if not camper:
+        abort(401, "Unauthorized")
+    return make_response(camper.to_dict(), 200)
+
+
+# ---------------------------------------------------------------------------|
+#                               CAMPER BY ID
+# ---------------------------------------------------------------------------|
 
 
 class CamperById(Resource):
@@ -73,6 +147,7 @@ class CamperById(Resource):
 
 
 api.add_resource(CamperById, "/campers/<int:id>")
+
 # ---------------------------------------------------------------------------|
 #                             LUNCH BOXES
 # ---------------------------------------------------------------------------|
@@ -443,18 +518,7 @@ class CampfireStoryById(Resource):
 
 
 api.add_resource(CampfireStoryById, "/campfire_stories/<int:id>")
-# ---------------------------------------------------------------------------|
-#                               LOGIN
-# ---------------------------------------------------------------------------|
-# ---------------------------------------------------------------------------|
-#                               SIGNUP
-# ---------------------------------------------------------------------------|
-# ---------------------------------------------------------------------------|
-#                               CHECK SESSION
-# ---------------------------------------------------------------------------|
-# ---------------------------------------------------------------------------|
-#                               LOGOUT
-# ---------------------------------------------------------------------------|
+
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)
