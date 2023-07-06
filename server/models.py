@@ -59,6 +59,8 @@ class Camper(db.Model, SerializerMixin):
     def validate_username(self, key, username):
         if not username:
             raise ValueError("Username is required")
+        elif not len(username) > 1:
+            raise ValueError("Username must be greater than 1 character")
         elif Camper.query.filter(Camper.username == username).first():
             raise ValueError("Username must be unique")
         else:
@@ -263,6 +265,8 @@ class Prize(db.Model, SerializerMixin):
     def validate_image(self, key, token_price):
         if not token_price:
             raise ValueError("Token price is required")
+        elif not isinstance(token_price, int):
+            raise ValueError("Token price must be an integer")
         return token_price
 
     # __repr__
@@ -352,6 +356,8 @@ class Token(db.Model, SerializerMixin):
     def validate_name(self, key, amount):
         if not amount:
             raise ValueError("Token amount is required")
+        elif not isinstance(amount, int):
+            raise ValueError("Token amount must be an integer")
         return amount
 
     # __repr__
