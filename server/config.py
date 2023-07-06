@@ -3,6 +3,7 @@ from flask_restful import Api
 from flask import Flask
 from sqlalchemy import MetaData
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 
 convention = {
     "ix": "ix_%(column_0_label)s",
@@ -17,7 +18,7 @@ db = SQLAlchemy(metadata=metadata)
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///camp_retro.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
+bcrypt = Bcrypt(app)
 migrate = Migrate(app, db)
 app.secret_key = b"\xd9s=\xc1\x03r]\x9f\x84qn\xa5\xb8D\x91\xc0"
 api = Api(app)

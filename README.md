@@ -65,7 +65,6 @@ A Camp Retro User can:
 | API Route             | Request Method | Body                                          | Response                                                                                        |
 | --------------------- | -------------- | --------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | /campers              | GET            |                                               | [{...},{...},...]                                                                               |
-| /campers              | POST           | {username, password, camper_name, image, bio} | {id, username, camper_name, image, bio}                                                         |
 | /campers/:id          | GET            |                                               | {id, username, camper_name, image, bio}                                                         |
 | /campers/:id          | PATCH          | {username, camper_name, image, bio}           | {id, username, camper_name, image, bio}                                                         |
 | /campers/:id          | DELETE         |                                               | {}                                                                                              |
@@ -85,6 +84,7 @@ A Camp Retro User can:
 | /tokens/:id           | GET            |                                               | {id, image, amount}                                                                             |
 | /campfire_stories     | GET            |                                               | [{...},{...},...]                                                                               |
 | /campfire_stories/:id | GET            |                                               | {id, title, description, image1, image2, image3}                                                |
+| /signup               | POST           | {username, password, camper_name, image, bio} | {id, username, camper_name, image, bio}                                                         |
 | /login                | POST           | {username, password}                          | {id, username, camper_name, image, bio}                                                         |
 | /authorized-session   | GET            |                                               | {id, username, camper_name, image, bio}                                                         |
 | /logout               | GET            |                                               |                                                                                                 |
