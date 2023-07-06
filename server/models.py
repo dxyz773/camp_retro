@@ -2,6 +2,7 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from config import db
 from config import bcrypt
+from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
 
 
@@ -12,10 +13,10 @@ class Camper(db.Model, SerializerMixin):
     updated = db.Column(db.DateTime, onupdate=db.func.now())
     # Class Specific
     username = db.Column(db.String, nullable=False, unique=True)
-    _password_hash = db.Column(db.String)
-    camper_name = db.Column(db.String)
-    image = db.Column(db.String, nullable=False)
-    bio = db.Column(db.Text, nullable=False)
+    _password_hash = db.Column(db.String, nullable=False)
+    camper_name = db.Column(db.String, nullable=False)
+    image = db.Column(db.String)
+    bio = db.Column(db.Text)
     # Relationships
     lunch_box = db.relationship(
         "Lunchbox", back_populates="camper", cascade="all, delete-orphan"
@@ -54,6 +55,27 @@ class Camper(db.Model, SerializerMixin):
         return bcrypt.check_password_hash(self._password_hash, password)
 
     # Validations
+    @validates("username")
+    def validate_username(self, key, username):
+        if not username:
+            raise ValueError("Username is required")
+        elif Camper.query.filter(Camper.username == username).first():
+            raise ValueError("Username must be unique")
+        else:
+            return username
+
+    @validates("camper_name")
+    def validate_camper_name(self, key, camper_name):
+        if not camper_name:
+            raise ValueError("Camper name is required")
+        return camper_name
+
+    @validates("_password_hash")
+    def validate_password_is_there(self, key, _password_hash):
+        if not _password_hash:
+            raise ValueError("Password is required")
+        return _password_hash
+
     # __repr__
     def __repr__(self):
         return f"<Camper {self.username}, camper_name: {self.camper_name}>"
@@ -83,11 +105,16 @@ class Lunchbox(db.Model, SerializerMixin):
         "-drink.lunch_box",
     )
 
+    # Validations
+    @validates("image")
+    def validate_image(self, key, image):
+        if not image:
+            raise ValueError("Image is required for Lunchbox")
+        return image
+
     # __repr__
     def __repr__(self):
         return f"<Lunchbox: {self.id}>"
-
-    # Validations
 
 
 class Snack(db.Model, SerializerMixin):
@@ -96,7 +123,7 @@ class Snack(db.Model, SerializerMixin):
     created = db.Column(db.DateTime, server_default=db.func.now())
     updated = db.Column(db.DateTime, onupdate=db.func.now())
     # Class Specific
-    name = db.Column(db.String, unique=True)
+    name = db.Column(db.String, unique=True, nullable=False)
     image = db.Column(db.String, nullable=False)
     # Relationships
     lunch_box = db.relationship(
@@ -107,11 +134,25 @@ class Snack(db.Model, SerializerMixin):
     # Serialize Rules
     serialize_rules = ("-created", "-updated", "-lunch_box.snack")
 
+    # Validations
+    @validates("name")
+    def validate_name(self, key, name):
+        if not name:
+            raise ValueError("Snack name is required")
+        elif Snack.query.filter(Snack.name == name).first():
+            raise ValueError("Snack name must be unique")
+        else:
+            return name
+
+    @validates("image")
+    def validate_image(self, key, image):
+        if not image:
+            raise ValueError("Snack image is required")
+        return image
+
     # __repr__
     def __repr__(self):
         return f"<Snack {self.name}>"
-
-    # Validations
 
 
 class Drink(db.Model, SerializerMixin):
@@ -131,11 +172,25 @@ class Drink(db.Model, SerializerMixin):
     # Serialize Rules
     serialize_rules = ("-created", "-updated", "-lunch_box.drink")
 
+    # Validations
+    @validates("name")
+    def validate_name(self, key, name):
+        if not name:
+            raise ValueError("Drink name is required")
+        elif Drink.query.filter(Drink.name == name).first():
+            raise ValueError("Drink name must be unique")
+        else:
+            return name
+
+    @validates("image")
+    def validate_image(self, key, image):
+        if not image:
+            raise ValueError("Drink image is required")
+        return image
+
     # __repr__
     def __repr__(self):
         return f"<Drink {self.name}>"
-
-    # Validations
 
 
 class TreasureChest(db.Model, SerializerMixin):
@@ -161,11 +216,16 @@ class TreasureChest(db.Model, SerializerMixin):
         "-prizes.treasure_chest",
     )
 
+    # Validations
+    @validates("image")
+    def validate_image(self, key, image):
+        if not image:
+            raise ValueError("Treasure chest image is required")
+        return image
+
     # __repr__
     def __repr__(self):
         return f"<TreasureChest: {self.id}>"
-
-    # Validations
 
 
 class Prize(db.Model, SerializerMixin):
@@ -186,11 +246,28 @@ class Prize(db.Model, SerializerMixin):
     # Serialize Rules
     serialize_rules = ("-created", "-updated", "-treasure_chest.prizes")
 
+    # Validations
+    @validates("name")
+    def validate_name(self, key, name):
+        if not name:
+            raise ValueError("Prize name is required")
+        return name
+
+    @validates("image")
+    def validate_image(self, key, image):
+        if not image:
+            raise ValueError("Prize image is required")
+        return image
+
+    @validates("token_price")
+    def validate_image(self, key, token_price):
+        if not token_price:
+            raise ValueError("Token price is required")
+        return token_price
+
     # __repr__
     def __repr__(self):
         return f"<Prize {self.name}: ${self.token_price}>"
-
-    # Validations
 
 
 class Game(db.Model, SerializerMixin):
@@ -217,11 +294,34 @@ class Game(db.Model, SerializerMixin):
     # Serialize rules
     serialize_rules = ("-created", "-updated", "-camper.games", "-tokens.game")
 
+    # Validations
+    @validates("name")
+    def validate_name(self, key, name):
+        if not name:
+            raise ValueError("Game name is required")
+        return name
+
+    @validates("description")
+    def validate_name(self, key, description):
+        if not description:
+            raise ValueError("Game description name is required")
+        return description
+
+    @validates("rules")
+    def validate_name(self, key, rules):
+        if not rules:
+            raise ValueError("Game rules are required")
+        return rules
+
+    @validates("image1")
+    def validate_name(self, key, image1):
+        if not image1:
+            raise ValueError("Game image 1 is required")
+        return image1
+
     # __repr__
     def __repr__(self):
         return f"<Game {self.name}>"
-
-    # Validations
 
 
 class Token(db.Model, SerializerMixin):
@@ -241,11 +341,22 @@ class Token(db.Model, SerializerMixin):
     # Serialize Rules
     serialize_rules = ("-created", "-updated", "-game.tokens")
 
+    # Validations
+    @validates("image")
+    def validate_name(self, key, image):
+        if not image:
+            raise ValueError("Token image is required")
+        return image
+
+    @validates("amount")
+    def validate_name(self, key, amount):
+        if not amount:
+            raise ValueError("Token amount is required")
+        return amount
+
     # __repr__
     def __repr__(self):
         return f"<Token {self.amount}>"
-
-    # Validations
 
 
 class CampfireStory(db.Model, SerializerMixin):
@@ -254,13 +365,35 @@ class CampfireStory(db.Model, SerializerMixin):
     created = db.Column(db.DateTime, server_default=db.func.now())
     updated = db.Column(db.DateTime, onupdate=db.func.now())
     # Class Specific
-    title = db.Column(db.String)
+    title = db.Column(db.String, unique=True, nullable=False)
     description = db.Column(db.Text, nullable=False)
     image1 = db.Column(db.String, nullable=False)
     image2 = db.Column(db.String)
     image3 = db.Column(db.String)
     # Serialize Rules
     serialize_rules = ("-created", "-updated")
+
+    # Validations
+    @validates("title")
+    def validate_name(self, key, title):
+        if not title:
+            raise ValueError("Campfire story title is required")
+        elif CampfireStory.query.filter(CampfireStory.title == title).first():
+            raise ValueError("Campfire story title must be unique")
+        else:
+            return title
+
+    @validates("image1")
+    def validate_name(self, key, image1):
+        if not image1:
+            raise ValueError("Campfire Story image1 is required")
+        return image1
+
+    @validates("description")
+    def validate_name(self, key, description):
+        if not description:
+            raise ValueError("Campfire story description name is required")
+        return description
 
     # __repr__
     def __repr__(self):
