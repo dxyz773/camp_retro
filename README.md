@@ -1,6 +1,8 @@
 # 🌲🌖 camp retro 🏕️
 
-No camp counselors. Just games, prizes, and retro fun!
+Camp Retro is an interactive game where a user signs up as a camper at Camp Retro, plays games, gains tokens, and wins prizes.
+
+✌🏾 No camp counselors. Just campires, games, and retro fun!
 
 ---
 
