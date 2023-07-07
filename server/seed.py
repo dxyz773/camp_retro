@@ -64,35 +64,35 @@ with app.app_context():
         username="Billy87",
         _password_hash="sndfuh89r3rfn3",
         camper_name="Billy",
-        image=fake.name(),
+        image="https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGJsYWNrJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=700&q=60",
         bio="NFL loving buy from the deep south. I love the Carolina Panthers. 'Go, Carolina!'",
     )
     camper2 = Camper(
         username="nadia111",
         _password_hash="sn234rh2fd3",
         camper_name="Nadia",
-        image=fake.name(),
+        image="https://images.unsplash.com/photo-1544714042-5c0a53d63ed5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTZ8fGJsYWNrJTIwd29tYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=700&q=60",
         bio="Ethiopian born, American made. I love music, shopping, and hanging with friends",
     )
     camper3 = Camper(
         username="tasha1998",
         _password_hash="sndfuh24333rfn3",
         camper_name="Natasha",
-        image=fake.name(),
+        image="https://images.unsplash.com/photo-1616002411355-49593fd89721?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHdvbWFuJTIwZmFjZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=700&q=60",
         bio="Hi, I'm Natasha, I love reading and drawing",
     )
     camper4 = Camper(
         username="jwon4539",
         _password_hash="sndfuh32443243",
         camper_name="Jayson",
-        image=fake.name(),
+        image="https://images.unsplash.com/photo-1611459293885-f8e692ab0356?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fGFzaWFuJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=700&q=60",
         bio="What's up! I'm Jayson. Love to play video games, and hit every music festival I can",
     )
     camper5 = Camper(
         username="amna35011",
         _password_hash="sndf342432fn3",
         camper_name="Amna",
-        image=fake.name(),
+        image="https://images.unsplash.com/photo-1500060257085-312ef9591798?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGFyYWJpYyUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=700&q=60",
         bio="I love being outside. I love gardening and hanging with my friends and family",
     )
 
@@ -153,18 +153,35 @@ with app.app_context():
     # SNACKS
     # ------------------------------------------------------------|
 
-    snack1 = Snack(name=fake.name(), image=fake.name())
-    snack2 = Snack(name=fake.name(), image=fake.name())
-    snack3 = Snack(name=fake.name(), image=fake.name())
+    snack1 = Snack(
+        name="DunkAroos",
+        image="https://www.gosupps.com/media/catalog/product/cache/25/image/1500x/040ec09b1e35df139433887a97daa66f/9/1/91wYzJzS0YS._SL1500_.jpg",
+    )
+    snack2 = Snack(
+        name="Oreo Minis", image="https://cdnimages.opentip.com/full/DOF/DOF-449011.jpg"
+    )
+    snack3 = Snack(
+        name="Lunchables - Turkey & Cheddar",
+        image="https://www.kroger.com/product/images/large/front/0004470002455",
+    )
 
     snacks = [snack1, snack2, snack3]
     db.session.add_all(snacks)
     # ------------------------------------------------------------|
     # DRINKS
     # ------------------------------------------------------------|
-    drink1 = Drink(name=fake.name(), image=fake.name())
-    drink2 = Drink(name=fake.name(), image=fake.name())
-    drink3 = Drink(name=fake.name(), image=fake.name())
+    drink1 = Drink(
+        name="Capri Sun Fruit Punch",
+        image="https://d3ldzx7fxfvsfy.cloudfront.net/233/studio/assets/v1687961059496_95364841/CS-FruitPunch-Updated.png",
+    )
+    drink2 = Drink(
+        name="Mott's Apple Juice",
+        image="https://m.media-amazon.com/images/I/71qosBESVVL.jpg",
+    )
+    drink3 = Drink(
+        name="Tropicana Orange Juice",
+        image="https://www.webstaurantstore.com/images/products/landscape/702357/2419030.jpg",
+    )
 
     drinks = [drink1, drink2, drink3]
     db.session.add_all(drinks)

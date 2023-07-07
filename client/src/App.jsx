@@ -1,15 +1,17 @@
-// import { useState } from 'react'
-import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { campersLoader, drinksLoader } from "./components/apiCampRetro";
-import Camp from "./components/Camp";
-import CampCabin from "./components/CampCabin";
-import Auth from "./components/Auth";
-import Snackbar from "./components/SnackBar";
-import Drink from "./components/Drink";
-import Home from "./components/Home";
-import Snacks from "./components/Snacks";
-import AppLayout from "./components/AppLayout";
+import {
+  campersLoader,
+  drinksLoader,
+  snacksLoader,
+} from "./services/apiCampRetro";
+import Camp from "./components/campers/Camp";
+import CampCabin from "./components/campers/CampCabin";
+import Auth from "./components/auth/Auth";
+import Snackbar from "./components/snackbar/SnackBar";
+import Drinks from "./components/snackbar/Drinks";
+import Home from "./components/home/Home";
+import Snacks from "./components/snackbar/Snacks";
+import AppLayout from "./ui/AppLayout";
 
 const router = createBrowserRouter([
   {
@@ -20,8 +22,8 @@ const router = createBrowserRouter([
       { path: "/camp-cabin", element: <CampCabin /> },
       { path: "/auth", element: <Auth /> },
       { path: "/snackbar", element: <Snackbar /> },
-      { path: "/snacks", element: <Snacks /> },
-      { path: "/drinks", element: <Drink />, loader: drinksLoader },
+      { path: "/snacks", element: <Snacks />, loader: snacksLoader },
+      { path: "/drinks", element: <Drinks />, loader: drinksLoader },
     ],
   },
 ]);
