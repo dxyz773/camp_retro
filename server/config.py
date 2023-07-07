@@ -4,6 +4,7 @@ from flask import Flask
 from sqlalchemy import MetaData
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from flask_cors import CORS
 
 convention = {
     "ix": "ix_%(column_0_label)s",
@@ -19,6 +20,7 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///camp_retro.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 bcrypt = Bcrypt(app)
+CORS(app)
 migrate = Migrate(app, db)
 app.secret_key = b"\xd9s=\xc1\x03r]\x9f\x84qn\xa5\xb8D\x91\xc0"
 api = Api(app)
