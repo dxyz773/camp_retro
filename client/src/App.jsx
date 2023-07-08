@@ -1,40 +1,40 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import {
-  campersLoader,
-  drinksLoader,
-  snacksLoader,
-} from "./services/apiCampRetro";
-import Camp from "./components/campers/Camp";
-import CampCabin from "./components/campers/CampCabin";
-import Auth from "./components/auth/Auth";
-import Snackbar from "./components/snackbar/SnackBar";
-import Drinks from "./components/snackbar/Drinks";
-import Home from "./components/home/Home";
-import Snacks from "./components/snackbar/Snacks";
-import OneSnack from "./components/snackbar/OneSnack";
-import OneDrink from "./components/snackbar/OneDrink";
-import Error from "./ui/Error";
-import AppLayout from "./ui/AppLayout";
-
-const router = createBrowserRouter([
-  {
-    element: <AppLayout />,
-    errorElement: <Error />,
-    children: [
-      { path: "/", element: <Home /> },
-      { path: "/camp", element: <Camp />, loader: campersLoader },
-      { path: "/camp-cabin", element: <CampCabin /> },
-      { path: "/auth", element: <Auth /> },
-      { path: "/snackbar", element: <Snackbar /> },
-      { path: "/snacks", element: <Snacks />, loader: snacksLoader },
-      { path: "/drinks", element: <Drinks />, loader: drinksLoader },
-      { path: "/drinks/:id", element: <OneDrink /> },
-      { path: "/snacks/:id", element: <OneSnack /> },
-    ],
-  },
-]);
+//----------------------------------------------//
+//             COMPONENT IMPORTS
+//----------------------------------------------//
+import Navbar from "./home/Navbar";
+import Home from "./home/Home";
+import Login from "./auth/Login";
+import Signup from "./auth/Signup";
+import Camp from "./camper/Camp";
+import CampCabin from "./camper/CampCabin";
+import Drinks from "./snackbar/Drinks";
+import OneDrink from "./snackbar/OneDrink";
+import Snacks from "./snackbar/Snacks";
+import OneSnack from "./snackbar/OneSnack";
+//----------------------------------------------//
+//            OTHER REACT IMPORTS
+//----------------------------------------------//
+import { Routes, Route } from "react-router-dom";
+//----------------------------------------------//
+//                    APP
+//----------------------------------------------//
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <div>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/camp" element={<Camp />} />
+        <Route path="/camp/cabin" element={<CampCabin />} />
+        <Route path="/camp/drinks" element={<Drinks />} />
+        <Route path="/camp/drinks/:id" element={<OneDrink />} />
+        <Route path="/camp/snacks" element={<Snacks />} />
+        <Route path="/camp/snacks/:id" element={<OneSnack />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </div>
+  );
 }
 
 export default App;
