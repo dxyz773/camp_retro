@@ -28,8 +28,8 @@ const router = createBrowserRouter([
       { path: "/snackbar", element: <Snackbar /> },
       { path: "/snacks", element: <Snacks />, loader: snacksLoader },
       { path: "/drinks", element: <Drinks />, loader: drinksLoader },
-      { path: "/drinks/one", element: <OneDrink /> },
-      { path: "/snacks/one", element: <OneSnack /> },
+      { path: "/drinks/:name", element: <OneDrink /> },
+      { path: "/snacks/:name", element: <OneSnack /> },
     ],
   },
 ]);
