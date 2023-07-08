@@ -1,21 +1,18 @@
+import OneDrink from "./OneDrink";
 import { useLoaderData } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 function Drinks() {
   const drinks = useLoaderData();
-  const allDrinks = drinks.map((drink) => (
-    <div key={drink.id} style={{ display: "inline-block" }}>
-      <p>{drink.name}</p>
-      <img
-        src={drink.image}
-        alt={drink.name}
-        width="200"
-        style={{ borderRadius: "100%" }}
-      />
-    </div>
-  ));
+
   return (
     <div>
       <p>Yummy Snacks</p>
-      {allDrinks}
+      {drinks.map((drink) => (
+        <OneDrink key={drink.id} drink={drink} />
+      ))}
+      <button>
+        <NavLink to="/snackbar">Back to Snackbar</NavLink>
+      </button>
     </div>
   );
 }
