@@ -11,11 +11,15 @@ import Snackbar from "./components/snackbar/SnackBar";
 import Drinks from "./components/snackbar/Drinks";
 import Home from "./components/home/Home";
 import Snacks from "./components/snackbar/Snacks";
+import OneSnack from "./components/snackbar/OneSnack";
+import OneDrink from "./components/snackbar/OneDrink";
+import Error from "./ui/Error";
 import AppLayout from "./ui/AppLayout";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
+    errorElement: <Error />,
     children: [
       { path: "/", element: <Home /> },
       { path: "/camp", element: <Camp />, loader: campersLoader },
@@ -24,6 +28,8 @@ const router = createBrowserRouter([
       { path: "/snackbar", element: <Snackbar /> },
       { path: "/snacks", element: <Snacks />, loader: snacksLoader },
       { path: "/drinks", element: <Drinks />, loader: drinksLoader },
+      { path: "/drinks/one", element: <OneDrink /> },
+      { path: "/snacks/one", element: <OneSnack /> },
     ],
   },
 ]);
