@@ -62,7 +62,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/camp" element={<Camp api={api} />} />
-        <Route path="/camp/cabin" element={<CampCabin />} />
+        <Route
+          path="/camp/cabin"
+          element={<CampCabin user={user} api={api} />}
+        />
         <Route path="/camp/drinks" element={<Drinks api={api} />} />
         <Route path="/camp/drinks/:id" element={<DrinkDetails />} />
         <Route path="/camp/snacks" element={<Snacks api={api} />} />
