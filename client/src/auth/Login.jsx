@@ -1,5 +1,85 @@
-function Login() {
-  return <div>Login</div>;
+import { useNavigate, NavLink } from "react-router-dom";
+import { useState } from "react";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+function Login({ api, updateUser }) {
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const schema = yup.object().shape({
+    username: yup.string().required("Please enter a username"),
+    password: yup.string().required("Please enter a password"),
+  });
+
+  const formik = useFormik({
+    initialValues: { username: "", password: "" },
+    validationSchema: schema,
+    onSubmit: (values, actions) => {
+      fetch(`${api}/login`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(values),
+      }).then((res) => {
+        if (res.ok) {
+          res.json().then((data) => {
+            actions.resetForm();
+            updateUser(data);
+            navigate("/");
+          });
+        } else {
+          res.json().then((err) => setError(err.message));
+        }
+      });
+    },
+  });
+  return (
+    <div style={{ marginTop: "50px" }}>
+      <form onSubmit={formik.handleSubmit}>
+        <div>
+          <label htmlFor="username">Username: </label>
+          <input
+            type="text"
+            name="username"
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.username && formik.errors.username ? (
+            <h5 style={{ color: "red" }}>{formik.errors.username}</h5>
+          ) : (
+            ""
+          )}
+        </div>
+        <div>
+          <label htmlFor="password">Password: </label>
+          <input
+            type="text"
+            name="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.password && formik.errors.password ? (
+            <h5 style={{ color: "red" }}>{formik.errors.password}</h5>
+          ) : (
+            ""
+          )}
+        </div>
+        <div>
+          <input type="submit" value="Login" />
+          {error ? <label style={{ color: "red" }}>{error}</label> : ""}
+        </div>
+      </form>
+      <div>
+        <button>
+          <NavLink to="/signup">{`Don't have an account yet? Signup here:`}</NavLink>
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default Login;
