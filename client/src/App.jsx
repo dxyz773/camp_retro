@@ -8,9 +8,9 @@ import Signup from "./auth/Signup";
 import Camp from "./camper/Camp";
 import CampCabin from "./camper/CampCabin";
 import Drinks from "./snackbar/Drinks";
-import OneDrink from "./snackbar/OneDrink";
+import DrinkDetails from "./snackbar/DrinkDetails";
 import Snacks from "./snackbar/Snacks";
-import OneSnack from "./snackbar/OneSnack";
+import SnackDetails from "./snackbar/SnackDetails";
 //----------------------------------------------//
 //            OTHER REACT IMPORTS
 //----------------------------------------------//
@@ -64,9 +64,9 @@ function App() {
         <Route path="/camp" element={<Camp api={api} />} />
         <Route path="/camp/cabin" element={<CampCabin />} />
         <Route path="/camp/drinks" element={<Drinks api={api} />} />
-        <Route path="/camp/drinks/:id" element={<OneDrink />} />
+        <Route path="/camp/drinks/:id" element={<DrinkDetails />} />
         <Route path="/camp/snacks" element={<Snacks api={api} />} />
-        <Route path="/camp/snacks/:id" element={<OneSnack />} />
+        <Route path="/camp/snacks/:id" element={<SnackDetails />} />
         <Route path="/login" element={<Login api={api} />} />
         <Route path="/signup" element={<Signup api={api} />} />
       </Routes>

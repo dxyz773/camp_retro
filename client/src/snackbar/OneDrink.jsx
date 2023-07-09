@@ -1,8 +1,14 @@
+import { Link } from "react-router-dom";
 function OneDrink({ drink }) {
+  const { image, name, id } = drink;
   return (
     <div>
-      <h5>{drink.name}</h5>
-      <img src={drink.image} alt={drink.name} style={{ width: 200 }} />
+      <img src={image} alt={name} style={{ width: 200 }} />
+      <div>
+        <Link to={`/camp/drinks/${id}`}>
+          <h5>{name}</h5>
+        </Link>
+      </div>
     </div>
   );
 }

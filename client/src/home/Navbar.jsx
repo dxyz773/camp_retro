@@ -23,7 +23,7 @@ function Navbar({ updateUser, user, api }) {
       {user ? (
         <div>
           <button onClick={Logout}>Log Out</button>
-          <p style={{ "margin-top": "8px" }}>Hello, {user.username}</p>
+          <p style={{ marginTop: "8px" }}>Hello, {user.username}</p>
         </div>
       ) : (
         ""

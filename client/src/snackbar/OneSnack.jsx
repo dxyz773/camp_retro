@@ -1,8 +1,14 @@
+import { Link } from "react-router-dom";
 function OneSnack({ snack }) {
+  const { image, name, id } = snack;
   return (
     <div>
-      <h5>{snack.name}</h5>
-      <img src={snack.image} alt={snack.name} style={{ width: 200 }} />
+      <img src={image} alt={name} style={{ width: 200 }} />
+      <div>
+        <Link to={`/camp/snacks/${id}`}>
+          <h5>{name}</h5>
+        </Link>
+      </div>
     </div>
   );
 }
