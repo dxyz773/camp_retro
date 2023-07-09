@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-function Camp() {
+function Camp({ api }) {
   const [camper, setCamper] = useState([]);
   useEffect(() => {
-    fetch("http://127.0.0.1:5555/campers")
+    fetch(`${api}/campers`)
       .then((res) => res.json())
       .then((data) => setCamper(data));
   }, []);
