@@ -36,7 +36,7 @@ function Login({ api, updateUser }) {
     },
   });
   return (
-    <div style={{ marginTop: "50px" }}>
+    <div>
       <form onSubmit={formik.handleSubmit}>
         <div>
           <label htmlFor="username">Username: </label>
