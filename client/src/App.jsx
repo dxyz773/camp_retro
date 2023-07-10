@@ -7,6 +7,7 @@ import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import Camp from "./camper/Camp";
 import CampCabin from "./camper/CampCabin";
+import Lunchbox from "./camper/Lunchbox";
 import Drinks from "./snackbar/Drinks";
 import DrinkDetails from "./snackbar/DrinkDetails";
 import Snacks from "./snackbar/Snacks";
@@ -72,6 +73,7 @@ function App() {
           path="/camp/cabin"
           element={<CampCabin user={user} api={api} />}
         />
+        <Route path="camp/lunchbox" element={<Lunchbox />} />
         <Route path="/camp/drinks" element={<Drinks api={api} />} />
         <Route path="/camp/drinks/:id" element={<DrinkDetails />} />
         <Route path="/camp/snacks" element={<Snacks api={api} />} />

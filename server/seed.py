@@ -273,19 +273,19 @@ with app.app_context():
     # ------------------------------------------------------------|
 
     lunchbox1 = Lunchbox(
-        image=fake.name(),
+        image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
         camper=choice(campers),
         snack=choice(snacks),
         drink=choice(drinks),
     )
     lunchbox2 = Lunchbox(
-        image=fake.name(),
+        image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
         camper=choice(campers),
         snack=choice(snacks),
         drink=choice(drinks),
     )
     lunchbox3 = Lunchbox(
-        image=fake.name(),
+        image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
         camper=choice(campers),
         snack=choice(snacks),
         drink=choice(drinks),

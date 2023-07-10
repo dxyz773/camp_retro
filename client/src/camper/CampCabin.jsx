@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Lunchbox from "./Lunchbox";
 function CampCabin({ user, api }) {
   const [profile, setProfile] = useState("");
   const { camper_name, username, bio, image, id } = user;
@@ -10,7 +11,7 @@ function CampCabin({ user, api }) {
       body: JSON.stringify({ image: profile }),
     });
   }
-  console.log(user);
+
   return (
     <div>
       <h3>Camper Name: {camper_name}</h3>
@@ -29,6 +30,10 @@ function CampCabin({ user, api }) {
           />
           <input type="submit" />
         </form>
+      </div>
+      <div>
+        <h3>Lunchbox</h3>
+        <Lunchbox user={user} />
       </div>
     </div>
   );
