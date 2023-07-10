@@ -98,7 +98,7 @@ class Signup(Resource):
         db.session.add(camper)
         db.session.commit()
 
-        session["user_id"] = camper.id
+        session["camper_id"] = camper.id
         response = make_response(
             camper.to_dict(rules=("-_password_hash",)),
             201,
@@ -118,7 +118,7 @@ class Login(Resource):
             data = request.get_json()
             camper = Camper.query.filter_by(username=data.get("username")).first()
             if camper.authenticate(data.get("password")):
-                session["user_id"] = camper.id
+                session["camper_id"] = camper.id
                 return make_response(camper.to_dict(rules=("-_password_hash",)), 200)
         except:
             abort(401, "Unauthorized")
@@ -132,19 +132,20 @@ api.add_resource(Login, "/login")
 
 @app.route("/logout", methods=["GET"])
 def logout():
-    session["user_id"] = None
+    session["camper_id"] = None
     return make_response("", 204)
 
 
 # ---------------------------------------------------------------------------|
 #                               CHECK SESSION
 # ---------------------------------------------------------------------------|
-@app.route("/authorized-session", methods=["GET"])
+@app.route("/check_session", methods=["GET"])
 def authorize():
-    camper = Camper.query.filter_by(id=session.get("user_id")).first()
-    if not camper:
+    camper = Camper.query.filter(Camper.id == session.get("camper_id")).first()
+    if camper:
+        return make_response(camper.to_dict(), 200)
+    else:
         abort(401, "Unauthorized")
-    return make_response(camper.to_dict(), 200)
 
 
 # ---------------------------------------------------------------------------|

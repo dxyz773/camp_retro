@@ -164,8 +164,51 @@ with app.app_context():
         name="Lunchables - Turkey & Cheddar",
         image="https://www.kroger.com/product/images/large/front/0004470002455",
     )
+    snack4 = Snack(
+        name="Red Apple",
+        image="https://www.applesfromny.com/wp-content/uploads/2020/06/SnapdragonNEW.png",
+    )
+    snack5 = Snack(
+        name="Green Apple",
+        image="https://i.etsystatic.com/13808628/r/il/b63d4a/3424214067/il_1588xN.3424214067_2qtg.jpg",
+    )
+    snack6 = Snack(
+        name="Ritz Crackers",
+        image="https://ipcdn.freshop.com/resize?url=https://images.freshop.com/00044000002114/a46d0dda800797e31bdb773e402d809e_large.png&width=512&type=webp&quality=90",
+    )
+    snack7 = Snack(
+        name="Welch's Mixed Fruit Snack",
+        image="https://target.scene7.com/is/image/Target/GUEST_e6aaeac9-30f8-4057-a510-552e6463c78b?wid=1000&hei=1000&qlt=80&fmt=webp",
+    )
+    snack7 = Snack(
+        name="Goldfish",
+        image="https://target.scene7.com/is/image/Target/GUEST_83d12fba-168b-405d-8310-5a621da4648b?wid=1000&hei=1000&qlt=80&fmt=webp",
+    )
+    snack8 = Snack(
+        name="Watermelon Slice",
+        image="https://img.freepik.com/premium-psd/sliced-watermelon-isolated-white_253984-6008.jpg",
+    )
+    snack9 = Snack(
+        name="String Cheese",
+        image="https://i5.walmartimages.com/asr/ff61d3de-ae40-4b4d-99e6-8957865e323c.69831eabbccd5543d6ca8471ba954b86.jpeg?odnHeight=2000&odnWidth=2000&odnBg=FFFFFF",
+    )
+    snack10 = Snack(
+        name="Rice Krispies Treats",
+        image="https://kellogg-h.assetsadobe.com/is/image/content/dam/kelloggs/kna/us/digital-shelf/rice-krispies-treats/00038000110528_C1NB.jpg",
+    )
 
-    snacks = [snack1, snack2, snack3]
+    snacks = [
+        snack1,
+        snack2,
+        snack3,
+        snack4,
+        snack5,
+        snack6,
+        snack7,
+        snack8,
+        snack9,
+        snack10,
+    ]
     db.session.add_all(snacks)
     # ------------------------------------------------------------|
     # DRINKS
@@ -182,8 +225,47 @@ with app.app_context():
         name="Tropicana Orange Juice",
         image="https://www.webstaurantstore.com/images/products/landscape/702357/2419030.jpg",
     )
+    drink4 = Drink(
+        name="Blueberry Smoothe",
+        image="https://assets.bonappetit.com/photos/63a1e0b3c37a58ec105a304e/1:1/w_2560%2Cc_limit/1220-smoothie-blueberry-lede.jpg",
+    )
+    drink5 = Drink(
+        name="Mango Juicebox",
+        image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCf_JN_TBDhPomXI7uFFy57-VZ-Esm_18jt5xNdKYyzEWU15DcLz9ETkXI2dAP6-FuCFE&usqp=CAU",
+    )
+    drink6 = Drink(
+        name="Strawberry Smoothie",
+        image="https://www.dinneratthezoo.com/wp-content/uploads/2018/05/strawberry-banana-smoothie-4.jpg",
+    )
+    drink7 = Drink(
+        name="Chocolate Yoohoo",
+        image="https://bagelsyourwaycafe.com/wp-content/uploads/2021/05/Yoo-Hoo-Glass-Bottle_640x360.jpg",
+    )
+    drink8 = Drink(
+        name="Grape Kool-Aid Jammers",
+        image="https://i5.walmartimages.com/asr/58543e52-8298-4027-91f4-549782ec74c6_1.86bb6330b226e0960867f2c7e30e0339.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF",
+    )
+    drink9 = Drink(
+        name="Cherry Kool-Aid Jammers",
+        image="https://i5.walmartimages.com/asr/c42880be-e165-4d37-a86c-4b6a0abacf4a_1.34e439c702d4ba0bce4e5de80287e124.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF",
+    )
+    drink10 = Drink(
+        name="Tropical Punch Kool-Aid Jammers",
+        image="https://www.foodservicedirect.com/media/catalog/product/0/0/00043000047293_ws_2_8jpvuhy2jkufgpxy.jpg?width=1200&height=1200&quality=85&fit=bounds",
+    )
 
-    drinks = [drink1, drink2, drink3]
+    drinks = [
+        drink1,
+        drink2,
+        drink3,
+        drink4,
+        drink5,
+        drink6,
+        drink7,
+        drink8,
+        drink9,
+        drink10,
+    ]
     db.session.add_all(drinks)
 
     # ------------------------------------------------------------|
