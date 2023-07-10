@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 94fef19abf5b
+Revision ID: f8c3b9ba2624
 Revises: 
-Create Date: 2023-07-04 12:57:43.549819
+Create Date: 2023-07-09 17:25:33.030428
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '94fef19abf5b'
+revision = 'f8c3b9ba2624'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,23 +23,24 @@ def upgrade():
     sa.Column('created', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated', sa.DateTime(), nullable=True),
     sa.Column('username', sa.String(), nullable=False),
-    sa.Column('_password_hash', sa.String(), nullable=True),
-    sa.Column('camper_name', sa.String(), nullable=True),
-    sa.Column('image', sa.String(), nullable=False),
-    sa.Column('bio', sa.Text(), nullable=False),
+    sa.Column('_password_hash', sa.String(), nullable=False),
+    sa.Column('camper_name', sa.String(), nullable=False),
+    sa.Column('image', sa.String(), nullable=True),
+    sa.Column('bio', sa.Text(), nullable=True),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_campers')),
-    sa.UniqueConstraint('camper_name', name=op.f('uq_campers_camper_name'))
+    sa.UniqueConstraint('username', name=op.f('uq_campers_username'))
     )
     op.create_table('campfire_stories',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated', sa.DateTime(), nullable=True),
-    sa.Column('title', sa.String(), nullable=True),
+    sa.Column('title', sa.String(), nullable=False),
     sa.Column('description', sa.Text(), nullable=False),
     sa.Column('image1', sa.String(), nullable=False),
     sa.Column('image2', sa.String(), nullable=True),
     sa.Column('image3', sa.String(), nullable=True),
-    sa.PrimaryKeyConstraint('id', name=op.f('pk_campfire_stories'))
+    sa.PrimaryKeyConstraint('id', name=op.f('pk_campfire_stories')),
+    sa.UniqueConstraint('title', name=op.f('uq_campfire_stories_title'))
     )
     op.create_table('drinks',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -50,11 +51,19 @@ def upgrade():
     sa.PrimaryKeyConstraint('id', name=op.f('pk_drinks')),
     sa.UniqueConstraint('name', name=op.f('uq_drinks_name'))
     )
+    op.create_table('sessions',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('session_id', sa.String(length=255), nullable=True),
+    sa.Column('data', sa.LargeBinary(), nullable=True),
+    sa.Column('expiry', sa.DateTime(), nullable=True),
+    sa.PrimaryKeyConstraint('id', name=op.f('pk_sessions')),
+    sa.UniqueConstraint('session_id', name=op.f('uq_sessions_session_id'))
+    )
     op.create_table('snacks',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated', sa.DateTime(), nullable=True),
-    sa.Column('name', sa.String(), nullable=True),
+    sa.Column('name', sa.String(), nullable=False),
     sa.Column('image', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_snacks')),
     sa.UniqueConstraint('name', name=op.f('uq_snacks_name'))
@@ -129,6 +138,7 @@ def downgrade():
     op.drop_table('games')
     op.drop_table('tokens')
     op.drop_table('snacks')
+    op.drop_table('sessions')
     op.drop_table('drinks')
     op.drop_table('campfire_stories')
     op.drop_table('campers')
