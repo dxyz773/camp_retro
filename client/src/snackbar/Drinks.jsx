@@ -22,9 +22,7 @@ function Drinks({ api }) {
     <div>
       <h3>Take a break and grab a juice box! </h3>
       <Search onSearch={handleChange} search={search} />
-      <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-        {allDrinks}
-      </div>
+      <div>{allDrinks}</div>
     </div>
   );
 }

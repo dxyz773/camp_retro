@@ -25,9 +25,7 @@ function Snacks({ api }) {
     <div>
       <h3>Take a break and grab a juice box! </h3>
       <Search onSearch={handleChange} search={search} />
-      <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-        {allSnacks}
-      </div>
+      <div>{allSnacks}</div>
     </div>
   );
 }
