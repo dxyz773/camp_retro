@@ -1,6 +1,6 @@
 from config import app, db
 from models import (
-    Camper,
+    User,
     Lunchbox,
     Snack,
     Drink,
@@ -19,7 +19,7 @@ fake = Faker()
 with app.app_context():
     print("Begin Seeding...")
 
-    Camper.query.delete()
+    User.query.delete()
     Lunchbox.query.delete()
     Snack.query.delete()
     Drink.query.delete()
@@ -57,38 +57,38 @@ with app.app_context():
     tokens = [token1, token2, token3, token4, token5]
     db.session.add_all(tokens)
     # ------------------------------------------------------------|
-    # CAMPERS
+    # USERS
     # ------------------------------------------------------------|
 
-    camper1 = Camper(
+    user1 = User(
         username="Billy87",
         _password_hash="sndfuh89r3rfn3",
         camper_name="Billy",
         image="https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGJsYWNrJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=700&q=60",
         bio="NFL loving buy from the deep south. I love the Carolina Panthers. 'Go, Carolina!'",
     )
-    camper2 = Camper(
+    user2 = User(
         username="nadia111",
         _password_hash="sn234rh2fd3",
         camper_name="Nadia",
         image="https://images.unsplash.com/photo-1544714042-5c0a53d63ed5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTZ8fGJsYWNrJTIwd29tYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=700&q=60",
         bio="Ethiopian born, American made. I love music, shopping, and hanging with friends",
     )
-    camper3 = Camper(
+    user3 = User(
         username="tasha1998",
         _password_hash="sndfuh24333rfn3",
         camper_name="Natasha",
         image="https://images.unsplash.com/photo-1616002411355-49593fd89721?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHdvbWFuJTIwZmFjZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=700&q=60",
         bio="Hi, I'm Natasha, I love reading and drawing",
     )
-    camper4 = Camper(
+    user4 = User(
         username="jwon4539",
         _password_hash="sndfuh32443243",
         camper_name="Jayson",
         image="https://images.unsplash.com/photo-1611459293885-f8e692ab0356?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fGFzaWFuJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=700&q=60",
         bio="What's up! I'm Jayson. Love to play video games, and hit every music festival I can",
     )
-    camper5 = Camper(
+    user5 = User(
         username="amna35011",
         _password_hash="sndf342432fn3",
         camper_name="Amna",
@@ -96,8 +96,8 @@ with app.app_context():
         bio="I love being outside. I love gardening and hanging with my friends and family",
     )
 
-    campers = [camper1, camper2, camper3, camper4, camper5]
-    db.session.add_all(campers)
+    users = [user1, user2, user3, user4, user5]
+    db.session.add_all(users)
     # ------------------------------------------------------------|
     # GAMES
     # ------------------------------------------------------------|
@@ -107,7 +107,7 @@ with app.app_context():
         rules=fake.text(),
         win_status=True,
         image1=fake.name(),
-        camper=choice(campers),
+        user=choice(users),
         tokens=choice(tokens),
     )
     game2 = Game(
@@ -116,7 +116,7 @@ with app.app_context():
         rules=fake.text(),
         win_status=False,
         image1=fake.name(),
-        camper=choice(campers),
+        user=choice(users),
         tokens=choice(tokens),
     )
     game3 = Game(
@@ -125,7 +125,7 @@ with app.app_context():
         rules=fake.text(),
         win_status=False,
         image1=fake.name(),
-        camper=choice(campers),
+        user=choice(users),
         tokens=choice(tokens),
     )
     game4 = Game(
@@ -134,7 +134,7 @@ with app.app_context():
         rules=fake.text(),
         win_status=True,
         image1=fake.name(),
-        camper=choice(campers),
+        user=choice(users),
         tokens=choice(tokens),
     )
     game5 = Game(
@@ -143,7 +143,7 @@ with app.app_context():
         rules=fake.text(),
         win_status=True,
         image1=fake.name(),
-        camper=choice(campers),
+        user=choice(users),
         tokens=choice(tokens),
     )
 
@@ -274,19 +274,19 @@ with app.app_context():
 
     lunchbox1 = Lunchbox(
         image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
-        camper=choice(campers),
+        user=choice(users),
         snack=choice(snacks),
         drink=choice(drinks),
     )
     lunchbox2 = Lunchbox(
         image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
-        camper=choice(campers),
+        user=choice(users),
         snack=choice(snacks),
         drink=choice(drinks),
     )
     lunchbox3 = Lunchbox(
         image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
-        camper=choice(campers),
+        user=choice(users),
         snack=choice(snacks),
         drink=choice(drinks),
     )
@@ -299,23 +299,23 @@ with app.app_context():
 
     treasure1 = TreasureChest(
         image="https://as2.ftcdn.net/v2/jpg/05/52/07/15/1000_F_552071588_8YeH0HA0dBPL1LNX7Gf069muLwbfOEnj.jpg",
-        camper=camper1,
+        user=user1,
     )
     treasure2 = TreasureChest(
         image="https://media.istockphoto.com/id/1160778039/photo/treasure-chest-open-ancient-trunk-with-glowing-magic-lights-in-the-dark.jpg?s=612x612&w=0&k=20&c=yMQNCICQAzZQYXK09nTnIzKs22A7j5zLqo-cTkTO134=",
-        camper=camper2,
+        user=user2,
     )
     treasure3 = TreasureChest(
         image="https://media.istockphoto.com/id/1160778039/photo/treasure-chest-open-ancient-trunk-with-glowing-magic-lights-in-the-dark.jpg?s=612x612&w=0&k=20&c=yMQNCICQAzZQYXK09nTnIzKs22A7j5zLqo-cTkTO134=",
-        camper=camper3,
+        user=user3,
     )
     treasure4 = TreasureChest(
         image="https://media.istockphoto.com/id/1160778039/photo/treasure-chest-open-ancient-trunk-with-glowing-magic-lights-in-the-dark.jpg?s=612x612&w=0&k=20&c=yMQNCICQAzZQYXK09nTnIzKs22A7j5zLqo-cTkTO134=",
-        camper=camper4,
+        user=user4,
     )
     treasure5 = TreasureChest(
         image="https://media.istockphoto.com/id/1160778039/photo/treasure-chest-open-ancient-trunk-with-glowing-magic-lights-in-the-dark.jpg?s=612x612&w=0&k=20&c=yMQNCICQAzZQYXK09nTnIzKs22A7j5zLqo-cTkTO134=",
-        camper=camper5,
+        user=user5,
     )
     treasures = [treasure1, treasure2, treasure3, treasure4, treasure5]
     db.session.add_all(treasures)

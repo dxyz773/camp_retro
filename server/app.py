@@ -1,7 +1,7 @@
 from flask import make_response, request, session, abort
 from flask_restful import Resource
 from models import (
-    Camper,
+    User,
     Lunchbox,
     Snack,
     Drink,
@@ -11,9 +11,13 @@ from models import (
     Token,
     CampfireStory,
 )
-from config import app, db, api
+from config import app, db, api, login_manager
+from flask_login import login_required, login_user, logout_user
 
 
+# ---------------------------------------------------------------------------|
+#                      BEFORE AND AFTER REQUEST
+# ---------------------------------------------------------------------------|
 @app.before_request
 def check_session():
     print(f"Before request: {session}")
@@ -26,59 +30,15 @@ def check_session_2(response):
 
 
 # ---------------------------------------------------------------------------|
-#                               CAMPERS
+#                       FOR FLASK LOGIN
 # ---------------------------------------------------------------------------|
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
-class Campers(Resource):
-    def get(self):
-        campers = [
-            camper.to_dict(only=("id", "camper_name", "username", "image"))
-            for camper in Camper.query.all()
-        ]
-
-        return make_response(campers, 200)
-
-
-api.add_resource(Campers, "/campers")
-
-
-class CamperById(Resource):
-    def get(self, id):
-        camper = Camper.query.filter_by(id=id).first()
-        if not camper:
-            abort(404, "Camper not found")
-
-        camper_dict = camper.to_dict()
-        return make_response(camper_dict, 200)
-
-    def patch(self, id):
-        camper = Camper.query.filter_by(id=id).first()
-        data = request.get_json()
-        if not camper:
-            abort(404, "Camper not found")
-        try:
-            for attr in data:
-                setattr(camper, attr, data.get(attr))
-            db.session.add(camper)
-            db.session.commit()
-        except:
-            abort(422, "Errors updading Camper")
-        return make_response(camper.to_dict(), 200)
-
-    def delete(self, id):
-        camper = Camper.query.filter_by(id=id).first()
-        if not camper:
-            abort(404, "Camper not found")
-        try:
-            db.session.delete(camper)
-            db.session.commit()
-        except:
-            abort(422, "Error deleting Camper")
-        return make_response({}, 200)
-
-
-api.add_resource(CamperById, "/campers/<int:id>")
+def logout():
+    logout_user()
 
 
 # ---------------------------------------------------------------------------|
@@ -87,26 +47,22 @@ api.add_resource(CamperById, "/campers/<int:id>")
 class Signup(Resource):
     def post(self):
         data = request.get_json()
-        new_camper = Camper(
-            username=data.get("username"),
-            camper_name=data.get("camper_name"),
-            image=data.get("image"),
-            bio=data.get("bio"),
-        )
-        new_camper.password_hash = data.get("password")
+        new_user = User(username=data.get("username"))
+        new_user.password_hash = data.get("password")
 
-        db.session.add(new_camper)
+        db.session.add(new_user)
         db.session.commit()
+        session["user_id"] = new_user.id
+        login_user(new_user, remember=True)
 
-        session["user_id"] = new_camper.id
         response = make_response(
-            new_camper.to_dict(rules=("-_password_hash",)),
+            new_user.to_dict(rules=("-_password_hash",)),
             201,
         )
         return response
 
 
-api.add_resource(Signup, "/signup", endpoint="signup")
+api.add_resource(Signup, "/signup")
 
 
 # ---------------------------------------------------------------------------|
@@ -116,10 +72,11 @@ class Login(Resource):
     def post(self):
         try:
             data = request.get_json()
-            camper = Camper.query.filter_by(username=data.get("username")).first()
-            if camper.authenticate(data.get("password")):
-                session["user_id"] = camper.id
-                return make_response(camper.to_dict(rules=("-_password_hash",)), 200)
+            user = User.query.filter_by(username=data.get("username")).first()
+            if user.authenticate(data.get("password")):
+                session["user_id"] = user.id
+                login_user(user, remember=True)
+                return make_response(user.to_dict(rules=("-_password_hash",)), 200)
         except:
             abort(401, "Unauthorized")
 
@@ -133,10 +90,12 @@ api.add_resource(Login, "/login")
 class Logout(Resource):
     def get(self):
         session["user_id"] = None
+        logout_user()
         return {}, 204
 
 
-api.add_resource(Logout, "/logout", endpoint="logout")
+api.add_resource(Logout, "/logout")
+
 # ---------------------------------------------------------------------------|
 #                               CHECK SESSION
 # ---------------------------------------------------------------------------|
@@ -145,12 +104,68 @@ api.add_resource(Logout, "/logout", endpoint="logout")
 class CheckSession(Resource):
     def get(self):
         if session.get("user_id"):
-            camper = Camper.query.filter(Camper.id == session["user_id"]).first()
-            return camper.to_dict(), 200
+            user = User.query.filter(User.id == session["user_id"]).first()
+            login_user(user, remember=True)
+            return user.to_dict(), 200
         return {}, 204
 
 
-api.add_resource(CheckSession, "/check_session", endpoint="check_session")
+api.add_resource(CheckSession, "/check_session")
+
+# ---------------------------------------------------------------------------|
+#                               USERS
+# ---------------------------------------------------------------------------|
+
+
+class Users(Resource):
+    def get(self):
+        users = [
+            user.to_dict(only=("id", "camper_name", "username", "image", "bio"))
+            for user in User.query.all()
+        ]
+
+        return make_response(users, 200)
+
+
+api.add_resource(Users, "/users")
+
+
+class UserById(Resource):
+    def get(self, id):
+        user = User.query.filter_by(id=id).first()
+        if not user:
+            abort(404, "User not found")
+
+        user_dict = user.to_dict()
+        return make_response(user_dict, 200)
+
+    def patch(self, id):
+        user = User.query.filter_by(id=id).first()
+        data = request.get_json()
+        if not user:
+            abort(404, "User not found")
+        try:
+            for attr in data:
+                setattr(user, attr, data.get(attr))
+            db.session.add(user)
+            db.session.commit()
+        except:
+            abort(422, "Errors updating User")
+        return make_response(user.to_dict(), 200)
+
+    def delete(self, id):
+        user = User.query.filter_by(id=id).first()
+        if not user:
+            abort(404, "User not found")
+        try:
+            db.session.delete(user)
+            db.session.commit()
+        except:
+            abort(422, "Error deleting User")
+        return make_response({}, 200)
+
+
+api.add_resource(UserById, "/users/<int:id>")
 
 
 # ---------------------------------------------------------------------------|
@@ -170,7 +185,7 @@ class LunchBoxById(Resource):
                     "drink",
                     "image",
                     "snack",
-                    "camper.camper_name",
+                    "user.camper_name",
                     "snack_id",
                     "drink_id",
                 )
@@ -198,7 +213,7 @@ class LunchBoxById(Resource):
                     "drink",
                     "image",
                     "snack",
-                    "camper.camper_name",
+                    "user.camper_name",
                     "snack_id",
                     "drink_id",
                 )
@@ -273,7 +288,7 @@ class TreasureChestById(Resource):
             abort(404, "Treasure not found")
 
         treasure_dict = treasure.to_dict(
-            only=("id", "image", "prizes", "camper_id", "camper.camper_name")
+            only=("id", "image", "prizes", "user_id", "user.camper_name")
         )
         return make_response(treasure_dict, 200)
 
@@ -390,7 +405,7 @@ class Games(Resource):
                 rules=data.get("rules"),
                 win_status=data.get("win_status"),
                 image1=data.get("image1"),
-                camper_id=data.get("camper_id"),
+                user_id=data.get("user_id"),
                 token_id=data.get("token_id"),
             )
 
@@ -442,7 +457,7 @@ class GameById(Resource):
                 "image4",
                 "token_id",
                 "tokens",
-                "camper.camper_name",
+                "user.camper_name",
             )
         )
         return make_response(game_dict, 200)
