@@ -1,32 +1,31 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from config import db
+from flask_login import UserMixin
 from config import bcrypt
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
 
 
-class Camper(db.Model, SerializerMixin):
-    __tablename__ = "campers"
+class User(db.Model, SerializerMixin, UserMixin):
+    __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, server_default=db.func.now())
     updated = db.Column(db.DateTime, onupdate=db.func.now())
     # Class Specific
     username = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
-    camper_name = db.Column(db.String, nullable=False)
+    camper_name = db.Column(db.String)
     image = db.Column(db.String)
     bio = db.Column(db.Text)
     # Relationships
     lunch_box = db.relationship(
-        "Lunchbox", back_populates="camper", cascade="all, delete-orphan"
+        "Lunchbox", back_populates="user", cascade="all, delete-orphan"
     )
     treasure_chest = db.relationship(
-        "TreasureChest", back_populates="camper", cascade="all, delete-orphan"
+        "TreasureChest", back_populates="user", cascade="all, delete-orphan"
     )
-    games = db.relationship(
-        "Game", back_populates="camper", cascade="all, delete-orphan"
-    )
+    games = db.relationship("Game", back_populates="user", cascade="all, delete-orphan")
     # Association Proxy
     snack = association_proxy("lunch_box", "snack")
     drink = association_proxy("lunch_box", "drink")
@@ -36,9 +35,9 @@ class Camper(db.Model, SerializerMixin):
     serialize_rules = (
         "-created",
         "-updated",
-        "-lunch_box.camper",
-        "-treasure_chest.camper",
-        "-games.camper",
+        "-lunch_box.user",
+        "-treasure_chest.user",
+        "-games.user",
     )
 
     # Bcrypt
@@ -61,16 +60,10 @@ class Camper(db.Model, SerializerMixin):
             raise ValueError("Username is required")
         elif not len(username) > 1:
             raise ValueError("Username must be greater than 1 character")
-        elif Camper.query.filter(Camper.username == username).first():
+        elif User.query.filter(User.username == username).first():
             raise ValueError("Username must be unique")
         else:
             return username
-
-    @validates("camper_name")
-    def validate_camper_name(self, key, camper_name):
-        if not camper_name:
-            raise ValueError("Camper name is required")
-        return camper_name
 
     @validates("_password_hash")
     def validate_password_is_there(self, key, _password_hash):
@@ -80,7 +73,7 @@ class Camper(db.Model, SerializerMixin):
 
     # __repr__
     def __repr__(self):
-        return f"<Camper {self.username}, camper_name: {self.camper_name}>"
+        return f"<User {self.username}>"
 
 
 class Lunchbox(db.Model, SerializerMixin):
@@ -91,18 +84,18 @@ class Lunchbox(db.Model, SerializerMixin):
     # Class Specific
     image = db.Column(db.String, nullable=False)
     # Foreign Key(s)
-    camper_id = db.Column(db.Integer, db.ForeignKey("campers.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     snack_id = db.Column(db.Integer, db.ForeignKey("snacks.id"))
     drink_id = db.Column(db.Integer, db.ForeignKey("drinks.id"))
     # Relationships
-    camper = db.relationship("Camper", back_populates="lunch_box")
+    user = db.relationship("User", back_populates="lunch_box")
     snack = db.relationship("Snack", back_populates="lunch_box")
     drink = db.relationship("Drink", back_populates="lunch_box")
     # Serialize Rules
     serialize_rules = (
         "-created",
         "-updated",
-        "-camper.lunch_box",
+        "-user.lunch_box",
         "-snack.lunch_box",
         "-drink.lunch_box",
     )
@@ -132,7 +125,7 @@ class Snack(db.Model, SerializerMixin):
         "Lunchbox", back_populates="snack", cascade="all, delete-orphan"
     )
     # Association Proxy
-    camper = association_proxy("lunch_box", "camper")
+    user = association_proxy("lunch_box", "user")
     # Serialize Rules
     serialize_rules = ("-created", "-updated", "-lunch_box.snack")
 
@@ -170,7 +163,7 @@ class Drink(db.Model, SerializerMixin):
         "Lunchbox", back_populates="drink", cascade="all, delete-orphan"
     )
     # Association Proxy
-    camper = association_proxy("lunch_box", "camper")
+    user = association_proxy("lunch_box", "user")
     # Serialize Rules
     serialize_rules = ("-created", "-updated", "-lunch_box.drink")
 
@@ -203,10 +196,10 @@ class TreasureChest(db.Model, SerializerMixin):
     # Class Specific
     image = db.Column(db.String, nullable=False)
     # Foreign Key(s)
-    camper_id = db.Column(db.Integer, db.ForeignKey("campers.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
     # Relationships
-    camper = db.relationship("Camper", back_populates="treasure_chest")
+    user = db.relationship("User", back_populates="treasure_chest")
     prizes = db.relationship(
         "Prize", back_populates="treasure_chest", cascade="all, delete-orphan"
     )
@@ -214,7 +207,7 @@ class TreasureChest(db.Model, SerializerMixin):
     serialize_rules = (
         "-created",
         "-updated",
-        "-camper.treasure_chest",
+        "-user.treasure_chest",
         "-prizes.treasure_chest",
     )
 
@@ -244,7 +237,7 @@ class Prize(db.Model, SerializerMixin):
     # Relationships
     treasure_chest = db.relationship("TreasureChest", back_populates="prizes")
     # Association Proxy
-    campers = association_proxy("treasure_chest", "camper")
+    users = association_proxy("treasure_chest", "user")
     # Serialize Rules
     serialize_rules = ("-created", "-updated", "-treasure_chest.prizes")
 
@@ -289,14 +282,14 @@ class Game(db.Model, SerializerMixin):
     image3 = db.Column(db.String)
     image4 = db.Column(db.String)
     # Foreign Key(s)
-    camper_id = db.Column(db.Integer, db.ForeignKey("campers.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     token_id = db.Column(db.Integer, db.ForeignKey("tokens.id"))
     # Relationship
 
-    camper = db.relationship("Camper", back_populates="games")
+    user = db.relationship("User", back_populates="games")
     tokens = db.relationship("Token", back_populates="game")
     # Serialize rules
-    serialize_rules = ("-created", "-updated", "-camper.games", "-tokens.game")
+    serialize_rules = ("-created", "-updated", "-user.games", "-tokens.game")
 
     # Validations
     @validates("name")
@@ -341,7 +334,7 @@ class Token(db.Model, SerializerMixin):
         "Game", back_populates="tokens", cascade="all, delete-orphan"
     )
     # Association Proxy
-    camper = association_proxy("game", "camper")
+    user = association_proxy("game", "user")
     # Serialize Rules
     serialize_rules = ("-created", "-updated", "-game.tokens")
 

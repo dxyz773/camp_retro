@@ -5,6 +5,7 @@ from sqlalchemy import MetaData
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
+from flask_login import LoginManager
 
 
 convention = {
@@ -24,9 +25,12 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///camp_retro.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.compact = False
 
+
 db = SQLAlchemy(metadata=metadata)
 migrate = Migrate(app, db)
 db.init_app(app)
 bcrypt = Bcrypt(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
 api = Api(app)
 CORS(app)

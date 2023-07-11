@@ -14,10 +14,15 @@ function Navbar({ updateUser, user }) {
   return (
     <nav style={{ display: "flex", gap: "50px", marginLeft: "20px" }}>
       <NavLink to="/">camp retro</NavLink>
-      <NavLink to="/camp">Camp Entrance</NavLink>
-      <NavLink to="/camp/cabin">Camp Cabin</NavLink>
-      <NavLink to="/camp/drinks">Juice box Stop</NavLink>
-      <NavLink to="/camp/snacks">Snack Break</NavLink>
+      {user ? (
+        <>
+          <NavLink to="/camp">Camp Entrance</NavLink>
+          <NavLink to="/camp/cabin">Camp Cabin</NavLink>
+          <NavLink to="/camp/drinks">Juice box Stop</NavLink>
+          <NavLink to="/camp/snacks">Snack Break</NavLink>
+        </>
+      ) : null}
+
       <NavLink to="/signup">Signup</NavLink>
       <NavLink to="/login">Login</NavLink>
       {user ? (
