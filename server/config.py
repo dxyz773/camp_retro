@@ -5,7 +5,7 @@ from sqlalchemy import MetaData
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
-from flask_session import Session
+
 
 convention = {
     "ix": "ix_%(column_0_label)s",
@@ -21,18 +21,12 @@ app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "4d7ec118c47131d09976e81dee7eaf1fb67d45a8144731f9"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///camp_retro.db"
-app.config["SESSION_TYPE"] = "sqlalchemy"
-
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.json.compact = False
 
 db = SQLAlchemy(metadata=metadata)
-app.config["SESSION_SQLALCHEMY"] = db
-bcrypt = Bcrypt(app)
-CORS(app)
-api = Api(app)
-
 migrate = Migrate(app, db)
 db.init_app(app)
-
-sess = Session(app)
-# sess.init_app(app)
+bcrypt = Bcrypt(app)
+api = Api(app)
+CORS(app)

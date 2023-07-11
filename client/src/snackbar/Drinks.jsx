@@ -8,7 +8,7 @@ function Drinks({ api }) {
     SetSearch(e.target.value);
   }
   useEffect(() => {
-    fetch(`${api}/drinks`)
+    fetch("http://127.0.0.1:5555/drinks")
       .then((res) => res.json())
       .then((data) => setDrinks(data));
   }, []);

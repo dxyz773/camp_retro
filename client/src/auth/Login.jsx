@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-function Login({ api, updateUser }) {
+function Login({ updateUser }) {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ function Login({ api, updateUser }) {
     initialValues: { username: "", password: "" },
     validationSchema: schema,
     onSubmit: (values, actions) => {
-      fetch(`${api}/login`, {
+      fetch("http://127.0.0.1:5555/login", {
         method: "POST",
         headers: {
           "content-type": "application/json",

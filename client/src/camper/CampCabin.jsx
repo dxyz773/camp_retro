@@ -1,15 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Lunchbox from "./Lunchbox";
-function CampCabin({ user, api }) {
+function CampCabin({ user }) {
   const [profile, setProfile] = useState("");
   const { camper_name, username, bio, image, id } = user;
 
   function addUserInfo() {
-    fetch(`${api}/campers/${id}`, {
+    const navigate = useNavigate();
+    fetch(`http://127.0.0.1:5555/campers/${id}`, {
       method: "PATCH",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ image: profile }),
-    });
+    }).then(navigate("/"));
   }
 
   return (

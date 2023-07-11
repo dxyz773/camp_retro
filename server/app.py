@@ -87,26 +87,26 @@ api.add_resource(CamperById, "/campers/<int:id>")
 class Signup(Resource):
     def post(self):
         data = request.get_json()
-        camper = Camper(
+        new_camper = Camper(
             username=data.get("username"),
             camper_name=data.get("camper_name"),
             image=data.get("image"),
             bio=data.get("bio"),
         )
-        camper.password_hash = data.get("password")
+        new_camper.password_hash = data.get("password")
 
-        db.session.add(camper)
+        db.session.add(new_camper)
         db.session.commit()
 
-        session["camper_id"] = camper.id
+        session["user_id"] = new_camper.id
         response = make_response(
-            camper.to_dict(rules=("-_password_hash",)),
+            new_camper.to_dict(rules=("-_password_hash",)),
             201,
         )
         return response
 
 
-api.add_resource(Signup, "/signup")
+api.add_resource(Signup, "/signup", endpoint="signup")
 
 
 # ---------------------------------------------------------------------------|
@@ -118,7 +118,7 @@ class Login(Resource):
             data = request.get_json()
             camper = Camper.query.filter_by(username=data.get("username")).first()
             if camper.authenticate(data.get("password")):
-                session["camper_id"] = camper.id
+                session["user_id"] = camper.id
                 return make_response(camper.to_dict(rules=("-_password_hash",)), 200)
         except:
             abort(401, "Unauthorized")
@@ -130,22 +130,27 @@ api.add_resource(Login, "/login")
 # ---------------------------------------------------------------------------|
 
 
-@app.route("/logout", methods=["GET"])
-def logout():
-    session["camper_id"] = None
-    return make_response("", 204)
+class Logout(Resource):
+    def get(self):
+        session["user_id"] = None
+        return {}, 204
 
 
+api.add_resource(Logout, "/logout", endpoint="logout")
 # ---------------------------------------------------------------------------|
 #                               CHECK SESSION
 # ---------------------------------------------------------------------------|
-@app.route("/check_session", methods=["GET"])
-def authorize():
-    camper = Camper.query.filter(Camper.id == session.get("camper_id")).first()
-    if camper:
-        return make_response(camper.to_dict(), 200)
-    else:
-        abort(401, "Unauthorized")
+
+
+class CheckSession(Resource):
+    def get(self):
+        if session.get("user_id"):
+            camper = Camper.query.filter(Camper.id == session["user_id"]).first()
+            return camper.to_dict(), 200
+        return {}, 204
+
+
+api.add_resource(CheckSession, "/check_session", endpoint="check_session")
 
 
 # ---------------------------------------------------------------------------|
