@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import OneSnack from "./OneSnack";
 import Search from "../re-use/Search";
-function Snacks({ api }) {
+function Snacks({}) {
   const [snacks, setSnacks] = useState([]);
   const [search, SetSearch] = useState("");
   function handleChange(e) {
@@ -9,7 +9,7 @@ function Snacks({ api }) {
   }
 
   useEffect(() => {
-    fetch(`${api}/snacks`)
+    fetch("http://127.0.0.1:5555/snacks")
       .then((res) => res.json())
       .then((data) => setSnacks(data));
   }, []);

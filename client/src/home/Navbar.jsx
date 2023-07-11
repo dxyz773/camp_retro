@@ -1,10 +1,10 @@
 import { NavLink, useNavigate } from "react-router-dom";
 
-function Navbar({ updateUser, user, api }) {
+function Navbar({ updateUser, user }) {
   const navigate = useNavigate();
 
   function Logout() {
-    fetch(`${api}/logout`).then((res) => {
+    fetch("http://127.0.0.1:5555/logout").then((res) => {
       if (res.ok) {
         updateUser(null);
         navigate("/");

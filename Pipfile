@@ -13,7 +13,7 @@ faker = "*"
 bcrypt = "*"
 flask-bcrypt = "*"
 flask-cors = "*"
-flask-session = "*"
+
 
 [dev-packages]
 

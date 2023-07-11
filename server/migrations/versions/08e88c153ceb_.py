@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: f8c3b9ba2624
+Revision ID: 08e88c153ceb
 Revises: 
-Create Date: 2023-07-09 17:25:33.030428
+Create Date: 2023-07-10 20:16:28.310093
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f8c3b9ba2624'
+revision = '08e88c153ceb'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -50,14 +50,6 @@ def upgrade():
     sa.Column('image', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_drinks')),
     sa.UniqueConstraint('name', name=op.f('uq_drinks_name'))
-    )
-    op.create_table('sessions',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('session_id', sa.String(length=255), nullable=True),
-    sa.Column('data', sa.LargeBinary(), nullable=True),
-    sa.Column('expiry', sa.DateTime(), nullable=True),
-    sa.PrimaryKeyConstraint('id', name=op.f('pk_sessions')),
-    sa.UniqueConstraint('session_id', name=op.f('uq_sessions_session_id'))
     )
     op.create_table('snacks',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -138,7 +130,6 @@ def downgrade():
     op.drop_table('games')
     op.drop_table('tokens')
     op.drop_table('snacks')
-    op.drop_table('sessions')
     op.drop_table('drinks')
     op.drop_table('campfire_stories')
     op.drop_table('campers')
