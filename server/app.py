@@ -11,27 +11,9 @@ from models import (
     Token,
     CampfireStory,
 )
-from config import app, db, api, jwt
+from config import app, db, api
 
 from flask_cors import cross_origin
-import datetime
-from flask_jwt_extended import (
-    create_access_token,
-    get_jwt_identity,
-    jwt_required,
-    current_user,
-)
-
-
-@jwt.user_identity_loader
-def user_identity_lookup(user):
-    return user.id
-
-
-@jwt.user_lookup_loader
-def user_lookup_callback(_jwt_header, jwt_data):
-    identity = jwt_data["sub"]
-    return User.query.filter_by(id=identity).one_or_none()
 
 
 # ---------------------------------------------------------------------------|
@@ -64,9 +46,10 @@ class Signup(Resource):
 
         db.session.add(new_user)
         db.session.commit()
-        access_token = create_access_token(identity=new_user)
+        session["user_id"] = new_user.id
+
         response = make_response(
-            jsonify(access_token=access_token),
+            new_user.to_dict(),
             201,
         )
         return response
@@ -91,8 +74,8 @@ def login():
     if not user:
         return make_response("User not found", 404)
     if user.authenticate(password):
-        access_token = create_access_token(identity=user)
-        return jsonify(access_token=access_token)
+        session["user_id"] = user.id
+        return make_response(user.to_dict(), 200)
     else:
         return make_response("Unauthorized. Credentials cannot be authenticated", 401)
 
@@ -104,7 +87,8 @@ def login():
 
 class Logout(Resource):
     def get(self):
-        return make_response({}, 200)
+        session["user_id"] = None
+        return make_response({}, 204)
 
 
 api.add_resource(Logout, "/logout")
@@ -114,17 +98,17 @@ api.add_resource(Logout, "/logout")
 # ---------------------------------------------------------------------------|
 
 
-@app.route("/check_session", methods=["GET"])
-@jwt_required()
-def check_session():
-    if current_user:
-        return jsonify(
-            id=current_user.id,
-            username=current_user.username,
-            camper_name=current_user.camper_name,
-            image=current_user.image,
-            bio=current_user.bio,
-        )
+class CheckSession(Resource):
+    def get(self):
+        try:
+            user = User.query.filter_by(id=session["user_id"]).first()
+            response = make_response(user.to_dict(), 200)
+            return response
+        except:
+            return make_response({}, 204)
+
+
+api.add_resource(CheckSession, "/check_session")
 
 
 # ---------------------------------------------------------------------------|

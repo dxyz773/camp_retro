@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-function CampCabin({ user, token, updateUser }) {
+function CampCabin({ user, updateUser }) {
   const [profile, setProfile] = useState("");
   const { camper_name, username, bio, image, id } = user;
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-function Signup() {
+function Signup({ updateUser }) {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -29,7 +29,8 @@ function Signup() {
       }).then((res) => {
         if (res.ok) {
           res.json().then((data) => {
-            sessionStorage.setItem("token", data.access_token);
+            console.log(data);
+            updateUser(data);
             actions.resetForm();
             navigate("/");
           });

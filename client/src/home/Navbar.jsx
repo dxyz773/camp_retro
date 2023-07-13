@@ -1,16 +1,15 @@
 import { NavLink, useNavigate } from "react-router-dom";
 
-function Navbar({ user, token }) {
+function Navbar({ user, updateUser }) {
   const navigate = useNavigate();
 
   function Logout() {
     fetch("http://127.0.0.1:5555/logout", {
       method: "GET",
-      headers: { Authorization: "Bearer " + token },
       credentials: "include",
     }).then((res) => {
       if (res.ok) {
-        sessionStorage.removeItem("token");
+        updateUser(null);
         navigate("/");
       }
     });
@@ -33,7 +32,6 @@ function Navbar({ user, token }) {
           <NavLink to="/">camp retro</NavLink>
           <NavLink to="/signup">Signup</NavLink>
           <NavLink to="/login">Login</NavLink>
-          <p>No token yet</p>
         </div>
       )}
     </nav>

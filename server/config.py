@@ -23,9 +23,9 @@ metadata = MetaData(naming_convention=convention)
 app = Flask(__name__)
 
 # app.config["SECRET_KEY"] = "4d7ec118c47131d09976e81dee7eaf1fb67d45a8144731f9"
-app.config[
-    "JWT_SECRET_KEY"
-] = '\x19\xb1\x0c}h\x1d\xf4\xc3\xb8\xf6\xcc#\x80\xae"\x80\x81~\xc8D$\xa4\xb9\x9e'
+app.secret_key = (
+    '\x19\xb1\x0c}h\x1d\xf4\xc3\xb8\xf6\xcc#\x80\xae"\x80\x81~\xc8D$\xa4\xb9\x9e'
+)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///camp_retro.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.compact = False
@@ -35,6 +35,5 @@ db = SQLAlchemy(metadata=metadata)
 migrate = Migrate(app, db)
 db.init_app(app)
 bcrypt = Bcrypt(app)
-jwt = JWTManager(app)
 CORS(app, supports_credentials=True)
 api = Api(app)

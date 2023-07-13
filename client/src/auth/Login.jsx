@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-function Login({ token }) {
+function Login({ updateUser }) {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ function Login({ token }) {
         if (res.ok) {
           res.json().then((data) => {
             console.log(data);
-            sessionStorage.setItem("token", data.access_token);
+            updateUser(data);
             actions.resetForm();
             navigate("/");
           });
@@ -42,11 +42,6 @@ function Login({ token }) {
   });
   return (
     <div>
-      {token && token !== undefined && token !== "" ? (
-        <p>You are logged in</p>
-      ) : (
-        <p>Proceed to login</p>
-      )}
       <form onSubmit={formik.handleSubmit}>
         <div>
           <label htmlFor="username">Username: </label>
