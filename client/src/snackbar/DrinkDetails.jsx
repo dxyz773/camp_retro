@@ -18,7 +18,7 @@ function DrinkDetails() {
   return (
     <div>
       <h3>{drink.name}</h3>
-      <img src={drink.image} alt={drink.name} style={{ width: 600 }} />
+      <img src={drink.image} alt={drink.name} style={{ width: 400 }} />
     </div>
   );
 }

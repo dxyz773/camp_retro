@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-function Signup({ updateUser }) {
+function Signup() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -19,15 +19,18 @@ function Signup({ updateUser }) {
     onSubmit: (values, actions) => {
       fetch("http://127.0.0.1:5555/signup", {
         method: "POST",
+        credentials: "include",
         headers: {
           "content-type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
         },
         body: JSON.stringify(values),
       }).then((res) => {
         if (res.ok) {
           res.json().then((data) => {
+            sessionStorage.setItem("token", data.access_token);
             actions.resetForm();
-            updateUser(data);
             navigate("/");
           });
         } else {

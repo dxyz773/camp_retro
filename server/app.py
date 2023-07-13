@@ -1,4 +1,4 @@
-from flask import make_response, request, session, abort
+from flask import make_response, request, session, abort, jsonify
 from flask_restful import Resource
 from models import (
     User,
@@ -11,8 +11,27 @@ from models import (
     Token,
     CampfireStory,
 )
-from config import app, db, api, login_manager
-from flask_login import login_required, login_user, logout_user
+from config import app, db, api, jwt
+
+from flask_cors import cross_origin
+import datetime
+from flask_jwt_extended import (
+    create_access_token,
+    get_jwt_identity,
+    jwt_required,
+    current_user,
+)
+
+
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+    return user.id
+
+
+@jwt.user_lookup_loader
+def user_lookup_callback(_jwt_header, jwt_data):
+    identity = jwt_data["sub"]
+    return User.query.filter_by(id=identity).one_or_none()
 
 
 # ---------------------------------------------------------------------------|
@@ -32,13 +51,6 @@ def check_session_2(response):
 # ---------------------------------------------------------------------------|
 #                       FOR FLASK LOGIN
 # ---------------------------------------------------------------------------|
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-
-def logout():
-    logout_user()
 
 
 # ---------------------------------------------------------------------------|
@@ -52,11 +64,9 @@ class Signup(Resource):
 
         db.session.add(new_user)
         db.session.commit()
-        session["user_id"] = new_user.id
-        login_user(new_user, remember=True)
-
+        access_token = create_access_token(identity=new_user)
         response = make_response(
-            new_user.to_dict(rules=("-_password_hash",)),
+            jsonify(access_token=access_token),
             201,
         )
         return response
@@ -68,20 +78,25 @@ api.add_resource(Signup, "/signup")
 # ---------------------------------------------------------------------------|
 #                               LOGIN
 # ---------------------------------------------------------------------------|
-class Login(Resource):
-    def post(self):
-        try:
-            data = request.get_json()
-            user = User.query.filter_by(username=data.get("username")).first()
-            if user.authenticate(data.get("password")):
-                session["user_id"] = user.id
-                login_user(user, remember=True)
-                return make_response(user.to_dict(rules=("-_password_hash",)), 200)
-        except:
-            abort(401, "Unauthorized")
+@app.route("/login", methods=["POST"])
+@cross_origin(
+    methods=["POST"],
+    supports_credentials=True,
+    headers=["Content-Type", "Authorization"],
+)
+def login():
+    username = request.json.get("username", None)
+    password = request.json.get("password", None)
+    user = User.query.filter_by(username=username).one_or_none()
+    if not user:
+        return make_response("User not found", 404)
+    if user.authenticate(password):
+        access_token = create_access_token(identity=user)
+        return jsonify(access_token=access_token)
+    else:
+        return make_response("Unauthorized. Credentials cannot be authenticated", 401)
 
 
-api.add_resource(Login, "/login")
 # ---------------------------------------------------------------------------|
 #                               LOGOUT
 # ---------------------------------------------------------------------------|
@@ -89,9 +104,7 @@ api.add_resource(Login, "/login")
 
 class Logout(Resource):
     def get(self):
-        session["user_id"] = None
-        logout_user()
-        return {}, 204
+        return make_response({}, 200)
 
 
 api.add_resource(Logout, "/logout")
@@ -101,16 +114,18 @@ api.add_resource(Logout, "/logout")
 # ---------------------------------------------------------------------------|
 
 
-class CheckSession(Resource):
-    def get(self):
-        if session.get("user_id"):
-            user = User.query.filter(User.id == session["user_id"]).first()
-            login_user(user, remember=True)
-            return user.to_dict(), 200
-        return {}, 204
+@app.route("/check_session", methods=["GET"])
+@jwt_required()
+def check_session():
+    if current_user:
+        return jsonify(
+            id=current_user.id,
+            username=current_user.username,
+            camper_name=current_user.camper_name,
+            image=current_user.image,
+            bio=current_user.bio,
+        )
 
-
-api.add_resource(CheckSession, "/check_session")
 
 # ---------------------------------------------------------------------------|
 #                               USERS
@@ -140,8 +155,8 @@ class UserById(Resource):
         return make_response(user_dict, 200)
 
     def patch(self, id):
-        user = User.query.filter_by(id=id).first()
         data = request.get_json()
+        user = User.query.filter_by(id=id).first()
         if not user:
             abort(404, "User not found")
         try:
@@ -171,6 +186,26 @@ api.add_resource(UserById, "/users/<int:id>")
 # ---------------------------------------------------------------------------|
 #                             LUNCH BOXES
 # ---------------------------------------------------------------------------|
+class Lunchboxes(Resource):
+    def post(self):
+        data = request.get_json()
+
+        try:
+            new_lunch = Lunchbox(
+                user_id=data.get("user_id"),
+                image="image",
+            )
+            db.session.add(new_lunch)
+            db.session.commit()
+
+        except:
+            return make_response({"errors": ["validation errors"]}, 400)
+
+        response = make_response(new_lunch.to_dict(), 201)
+        return response
+
+
+api.add_resource(Lunchboxes, "/lunch_boxes")
 
 
 class LunchBoxById(Resource):
@@ -188,6 +223,7 @@ class LunchBoxById(Resource):
                     "user.camper_name",
                     "snack_id",
                     "drink_id",
+                    "user_id",
                 )
             ),
             200,
@@ -216,6 +252,7 @@ class LunchBoxById(Resource):
                     "user.camper_name",
                     "snack_id",
                     "drink_id",
+                    "user_id",
                 )
             ),
             200,
