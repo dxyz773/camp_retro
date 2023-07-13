@@ -1,14 +1,16 @@
 import OneDrink from "./OneDrink";
 import Search from "../re-use/Search";
 import { useState, useEffect } from "react";
-function Drinks({ api }) {
+function Drinks({ token }) {
   const [drinks, setDrinks] = useState([]);
   const [search, SetSearch] = useState("");
   function handleChange(e) {
     SetSearch(e.target.value);
   }
   useEffect(() => {
-    fetch("http://127.0.0.1:5555/drinks")
+    fetch("http://127.0.0.1:5555/drinks", {
+      headers: { Authorization: "Bearer " + token },
+    })
       .then((res) => res.json())
       .then((data) => setDrinks(data));
   }, []);

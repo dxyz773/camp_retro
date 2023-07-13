@@ -1,19 +1,29 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Lunchbox from "./Lunchbox";
-function CampCabin({ user }) {
+import { NavLink } from "react-router-dom";
+function CampCabin({ user, token, updateUser }) {
   const [profile, setProfile] = useState("");
   const { camper_name, username, bio, image, id } = user;
 
+  const navigate = useNavigate();
+
   function addUserInfo() {
-    const navigate = useNavigate();
-    fetch(`http://127.0.0.1:5555/campers/${id}`, {
+    fetch(`http://127.0.0.1:5555/users/${id}`, {
       method: "PATCH",
-      headers: { "content-type": "application/json" },
+      headers: {
+        "content-type": "application/json",
+      },
       body: JSON.stringify({ image: profile }),
     }).then(navigate("/"));
   }
 
+  function handleGetLunchbox() {
+    fetch("http://127.0.0.1:5555/lunch_boxes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user_id: id }),
+    }).then(navigate("/"));
+  }
   return (
     <div>
       <h3>Camper Name: {camper_name}</h3>
@@ -33,9 +43,11 @@ function CampCabin({ user }) {
           <input type="submit" />
         </form>
       </div>
-      <div>
-        <h3>Lunchbox</h3>
-        <Lunchbox user={user} />
+      <div style={{ display: "flex", gap: "20px" }}>
+        <button>
+          <NavLink to="/camp/lunchbox">Check your snack and drinks</NavLink>
+        </button>
+        <button onClick={handleGetLunchbox}>Get Lunchbox</button>
       </div>
     </div>
   );

@@ -1,13 +1,12 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from config import db
-from flask_login import UserMixin
 from config import bcrypt
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
 
 
-class User(db.Model, SerializerMixin, UserMixin):
+class User(db.Model, SerializerMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, server_default=db.func.now())
