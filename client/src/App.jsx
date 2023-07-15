@@ -10,6 +10,9 @@ import DrinkStation from "./snacks+drinks/DrinkStation";
 import SnackBreak from "./snacks+drinks/SnackBreak";
 import Campfire from "./campfire/Campfire";
 import LunchBox from "./campers/LunchBox";
+import TreasureChest from "./campers/TreasureChest";
+import PrizeRoom from "./prizes/PrizeRoom";
+import Games from "./games/Games";
 
 //----------------------------------------------------------------------------|
 //                            OTHER IMPORTS
@@ -43,9 +46,12 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/campers" element={<Campers />} />
           <Route path="/camp-cabin" element={<CampCabin />} />
+          <Route path="/lunchbox" element={<LunchBox />} />
+          <Route path="/treasure-chest" element={<TreasureChest />} />
           <Route path="/snack-break" element={<SnackBreak />} />
           <Route path="/drink-station" element={<DrinkStation />} />
-          <Route path="/lunchbox" element={<LunchBox />} />
+          <Route path="/games" element={<Games />} />
+          <Route path="/prize-room" element={<PrizeRoom />} />
           <Route path="/campfire" element={<Campfire />} />
         </Routes>
       </UserContext.Provider>

@@ -12,7 +12,6 @@ from models import (
     CampfireStory,
 )
 from config import app, db, api
-from flask_cors import cross_origin
 from flask_login import (
     LoginManager,
     login_user,
@@ -341,7 +340,7 @@ class Prizes(Resource):
                     "image",
                     "token_price",
                     "treasure_chest_id",
-                    "treasure_chest",
+                    "treasure_chest.image",
                 )
             )
             for prize in Prize.query.all()
