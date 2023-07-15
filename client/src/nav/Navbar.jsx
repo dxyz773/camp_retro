@@ -8,7 +8,6 @@ function Navbar() {
       <NavLink to="/campfire">Campfire</NavLink>
       <NavLink to="/snack-break">Snack Break</NavLink>
       <NavLink to="/drink-station">Drink Station</NavLink>
-
       <NavLink to="/login">Login</NavLink>
     </nav>
   );
