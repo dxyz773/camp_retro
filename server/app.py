@@ -12,8 +12,17 @@ from models import (
     CampfireStory,
 )
 from config import app, db, api
-
 from flask_cors import cross_origin
+from flask_login import (
+    LoginManager,
+    login_user,
+    logout_user,
+    login_required,
+    current_user,
+)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 
 # ---------------------------------------------------------------------------|
@@ -33,11 +42,16 @@ def check_session_2(response):
 # ---------------------------------------------------------------------------|
 #                       FOR FLASK LOGIN
 # ---------------------------------------------------------------------------|
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.filter_by(id=user_id).first()
 
 
 # ---------------------------------------------------------------------------|
 #                               SIGNUP
 # ---------------------------------------------------------------------------|
+
+
 class Signup(Resource):
     def post(self):
         data = request.get_json()
@@ -46,7 +60,22 @@ class Signup(Resource):
 
         db.session.add(new_user)
         db.session.commit()
-        session["user_id"] = new_user.id
+
+        new_lunch = Lunchbox(
+            user_id=new_user.id,
+            image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
+        )
+        db.session.add(new_lunch)
+        db.session.commit()
+
+        new_treasure = TreasureChest(
+            image="https://media.istockphoto.com/id/1160778039/photo/treasure-chest-open-ancient-trunk-with-glowing-magic-lights-in-the-dark.jpg?s=612x612&w=0&k=20&c=yMQNCICQAzZQYXK09nTnIzKs22A7j5zLqo-cTkTO134=",
+            user_id=new_user.id,
+        )
+        db.session.add(new_treasure)
+        db.session.commit()
+
+        login_user(new_user, remember=True)
 
         response = make_response(
             new_user.to_dict(),
@@ -61,37 +90,38 @@ api.add_resource(Signup, "/signup")
 # ---------------------------------------------------------------------------|
 #                               LOGIN
 # ---------------------------------------------------------------------------|
-@app.route("/login", methods=["POST"])
-@cross_origin(
-    methods=["POST"],
-    supports_credentials=True,
-    headers=["Content-Type", "Authorization"],
-)
-def login():
-    username = request.json.get("username", None)
-    password = request.json.get("password", None)
-    user = User.query.filter_by(username=username).one_or_none()
-    if not user:
-        return make_response("User not found", 404)
-    if user.authenticate(password):
-        session["user_id"] = user.id
-        return make_response(user.to_dict(), 200)
-    else:
-        return make_response("Unauthorized. Credentials cannot be authenticated", 401)
 
+
+class Login(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            username = data.get("username", None)
+            password = data.get("password", None)
+            user = User.query.filter_by(username=username).first()
+            if user:
+                if user.authenticate(password):
+                    login_user(user, remember=True)
+                    return user.to_dict(), 200
+            if not user:
+                return {"error": "404 user not found"}, 404
+        except:
+            return {"error": "401 Unauthorized"}, 401
+
+
+api.add_resource(Login, "/login")
 
 # ---------------------------------------------------------------------------|
 #                               LOGOUT
 # ---------------------------------------------------------------------------|
 
 
-class Logout(Resource):
-    def get(self):
-        session["user_id"] = None
-        return make_response({}, 204)
+@app.route("/logout", methods=["POST"])
+@login_required
+def logout():
+    logout_user()
+    return make_response({}, 200)
 
-
-api.add_resource(Logout, "/logout")
 
 # ---------------------------------------------------------------------------|
 #                               CHECK SESSION
@@ -100,12 +130,12 @@ api.add_resource(Logout, "/logout")
 
 class CheckSession(Resource):
     def get(self):
-        try:
-            user = User.query.filter_by(id=session["user_id"]).first()
-            response = make_response(user.to_dict(), 200)
-            return response
-        except:
-            return make_response({}, 204)
+        user = User.query.filter_by(id=8).first()
+        login_user(user, remember=True)
+        return make_response(
+            user.to_dict(rules=("-_password_hash",)),
+            200,
+        )
 
 
 api.add_resource(CheckSession, "/check_session")
@@ -170,26 +200,6 @@ api.add_resource(UserById, "/users/<int:id>")
 # ---------------------------------------------------------------------------|
 #                             LUNCH BOXES
 # ---------------------------------------------------------------------------|
-class Lunchboxes(Resource):
-    def post(self):
-        data = request.get_json()
-
-        try:
-            new_lunch = Lunchbox(
-                user_id=data.get("user_id"),
-                image="image",
-            )
-            db.session.add(new_lunch)
-            db.session.commit()
-
-        except:
-            return make_response({"errors": ["validation errors"]}, 400)
-
-        response = make_response(new_lunch.to_dict(), 201)
-        return response
-
-
-api.add_resource(Lunchboxes, "/lunch_boxes")
 
 
 class LunchBoxById(Resource):
