@@ -9,8 +9,8 @@ import CampCabin from "./campers/CampCabin";
 import DrinkStation from "./snacks+drinks/DrinkStation";
 import SnackBreak from "./snacks+drinks/SnackBreak";
 import Campfire from "./campfire/Campfire";
-import Snack from "./snacks+drinks/Snack";
-import Drink from "./snacks+drinks/Drink";
+import LunchBox from "./campers/LunchBox";
+
 //----------------------------------------------------------------------------|
 //                            OTHER IMPORTS
 //----------------------------------------------------------------------------|
@@ -45,6 +45,7 @@ function App() {
           <Route path="/camp-cabin" element={<CampCabin />} />
           <Route path="/snack-break" element={<SnackBreak />} />
           <Route path="/drink-station" element={<DrinkStation />} />
+          <Route path="/lunchbox" element={<LunchBox />} />
           <Route path="/campfire" element={<Campfire />} />
         </Routes>
       </UserContext.Provider>

@@ -1,7 +1,10 @@
 import UserContext from "../context/UserContext";
 import { useContext } from "react";
+import { NavLink } from "react-router-dom";
+
 function CampCabin() {
   const { user } = useContext(UserContext);
+
   return (
     <div>
       <h2>Camp Cabin</h2>
@@ -11,7 +14,15 @@ function CampCabin() {
         alt={user.username}
         style={{ width: 200, borderRadius: "30px" }}
       />
-      <p>Bio:{user.bio}</p>
+      <div>
+        <p>Bio:{user.bio}</p>
+      </div>
+      <div>
+        <img src={user.lunch_box[0].image} alt="lunchbox" width={200} />
+        <button>
+          <NavLink to="/lunchbox">Lunchbox</NavLink>
+        </button>
+      </div>
     </div>
   );
 }
