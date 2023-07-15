@@ -6,9 +6,11 @@ function CampCabin() {
   const { user } = useContext(UserContext);
 
   return (
-    <div>
+    <div className="bg-yellow-100 bg-[url">
       <h2>Camp Cabin</h2>
-      <h4>Welcome to your camp cabin, {user.camper_name}</h4>
+      <h4 style={{ paddingTop: "50px" }}>
+        Welcome to your camp cabin, {user.camper_name}
+      </h4>
       <img
         src={user.image}
         alt={user.username}
@@ -19,11 +21,11 @@ function CampCabin() {
       </div>
       <div>
         <img src={user.lunch_box[0].image} alt="lunchbox" width={200} />
-        <button>
+        <button className="bg-yellow-400 hover:bg-yellow-300">
           <NavLink to="/lunchbox">Lunchbox</NavLink>
         </button>
         <br />
-        <button>
+        <button className="bg-yellow-400 hover:bg-yellow-300">
           <NavLink to="/treasure-chest">Treasure Chest</NavLink>
         </button>
       </div>

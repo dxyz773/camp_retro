@@ -25,7 +25,9 @@ function Drink({ drink }) {
         style={{ width: 200, borderRadius: "20px" }}
         alt={drink.name}
       />
-      <button onClick={addDrink}>Add to Lunchbox</button>
+      <button className="bg-yellow-400 hover:bg-yellow-300" onClick={addDrink}>
+        Add to Lunchbox
+      </button>
     </div>
   );
 }
