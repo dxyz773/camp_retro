@@ -38,7 +38,7 @@ function App() {
     setUser(data);
   }
   return (
-    <>
+    <div>
       <UserContext.Provider value={{ user, updateUser }}>
         <Navbar />
         <Routes>
@@ -55,7 +55,7 @@ function App() {
           <Route path="/campfire" element={<Campfire />} />
         </Routes>
       </UserContext.Provider>
-    </>
+    </div>
   );
 }
 

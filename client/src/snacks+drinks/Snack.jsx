@@ -22,7 +22,9 @@ function Snack({ snack }) {
     <div>
       <h4>{snack.name}</h4>
       <img src={snack.image} style={{ width: 200, borderRadius: "20px" }} />
-      <button onClick={addSnack}>Add to Lunchbox</button>
+      <button className="bg-yellow-400 hover:bg-yellow-300" onClick={addSnack}>
+        Add to Lunchbox
+      </button>
     </div>
   );
 }

@@ -5,7 +5,10 @@ import { useContext } from "react";
 function Navbar() {
   const { user } = useContext(UserContext);
   return (
-    <nav style={{ display: "flex", gap: "50px" }}>
+    <nav
+      className="bg-yellow-400 text-md"
+      style={{ display: "flex", gap: "50px" }}
+    >
       <NavLink to="/">| camp-Retro |</NavLink>
       <NavLink to="/camp-cabin">Camp Cabin</NavLink>
       <NavLink to="/campers">Campers</NavLink>
