@@ -72,14 +72,14 @@ with app.app_context():
         _password_hash="sn234rh2fd3",
         camper_name="Nadia",
         image="https://images.unsplash.com/photo-1544714042-5c0a53d63ed5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTZ8fGJsYWNrJTIwd29tYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=700&q=60",
-        bio="Ethiopian born, American made. I love music, shopping, and hanging with friends",
+        bio="Hey everyone, I'm Nadia. I love music, shopping, and hanging with friends",
     )
     user3 = User(
         username="tasha1998",
         _password_hash="sndfuh24333rfn3",
         camper_name="Natasha",
         image="https://images.unsplash.com/photo-1616002411355-49593fd89721?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHdvbWFuJTIwZmFjZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=700&q=60",
-        bio="Hi, I'm Natasha, I love reading and drawing",
+        bio="Hi, I'm Natasha, I love reading and drawing.",
     )
     user4 = User(
         username="jwon4539",
@@ -95,8 +95,21 @@ with app.app_context():
         image="https://images.unsplash.com/photo-1500060257085-312ef9591798?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGFyYWJpYyUyMHdvbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=700&q=60",
         bio="I love being outside. I love gardening and hanging with my friends and family",
     )
-
-    users = [user1, user2, user3, user4, user5]
+    user6 = User(
+        username="Amy205311",
+        _password_hash="snsdsdfds222",
+        camper_name="Amy",
+        image="https://images.unsplash.com/photo-1521227889351-bf6f5b2e4e37?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1325&q=80",
+        bio="Hey, I'm Amy! I am all about music festivals and art galleries!",
+    )
+    user7 = User(
+        username="JonaMTexas555",
+        _password_hash="sns5555522",
+        camper_name="Jona",
+        image="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+        bio="I'm Jona. Into anime, gaming, and fashion",
+    )
+    users = [user1, user2, user3, user4, user5, user6, user7]
     db.session.add_all(users)
     # ------------------------------------------------------------|
     # GAMES
@@ -302,8 +315,28 @@ with app.app_context():
         snack=choice(snacks),
         drink=choice(drinks),
     )
+    lunchbox6 = Lunchbox(
+        image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
+        user_id=6,
+        snack=choice(snacks),
+        drink=choice(drinks),
+    )
+    lunchbox7 = Lunchbox(
+        image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
+        user_id=7,
+        snack=choice(snacks),
+        drink=choice(drinks),
+    )
 
-    lunch_boxes = [lunchbox1, lunchbox2, lunchbox3, lunchbox4, lunchbox5]
+    lunch_boxes = [
+        lunchbox1,
+        lunchbox2,
+        lunchbox3,
+        lunchbox4,
+        lunchbox5,
+        lunchbox6,
+        lunchbox7,
+    ]
     db.session.add_all(lunch_boxes)
     # ------------------------------------------------------------|
     # TREASURES
@@ -329,48 +362,95 @@ with app.app_context():
         image="https://media.istockphoto.com/id/1160778039/photo/treasure-chest-open-ancient-trunk-with-glowing-magic-lights-in-the-dark.jpg?s=612x612&w=0&k=20&c=yMQNCICQAzZQYXK09nTnIzKs22A7j5zLqo-cTkTO134=",
         user=user5,
     )
-    treasures = [treasure1, treasure2, treasure3, treasure4, treasure5]
+    treasure6 = TreasureChest(
+        image="https://media.istockphoto.com/id/1160778039/photo/treasure-chest-open-ancient-trunk-with-glowing-magic-lights-in-the-dark.jpg?s=612x612&w=0&k=20&c=yMQNCICQAzZQYXK09nTnIzKs22A7j5zLqo-cTkTO134=",
+        user=user6,
+    )
+    treasure7 = TreasureChest(
+        image="https://media.istockphoto.com/id/1160778039/photo/treasure-chest-open-ancient-trunk-with-glowing-magic-lights-in-the-dark.jpg?s=612x612&w=0&k=20&c=yMQNCICQAzZQYXK09nTnIzKs22A7j5zLqo-cTkTO134=",
+        user=user7,
+    )
+    treasures = [
+        treasure1,
+        treasure2,
+        treasure3,
+        treasure4,
+        treasure5,
+        treasure6,
+        treasure7,
+    ]
     db.session.add_all(treasures)
     # ------------------------------------------------------------|
     # PRIZES
     # ------------------------------------------------------------|
     prize1 = Prize(
-        name=fake.name(),
-        image=fake.name(),
-        token_price=10,
+        name="Grey Beige Furby",
+        image="https://i.etsystatic.com/32576510/r/il/c3769e/4891656971/il_1588xN.4891656971_24tf.jpg",
+        token_price=60,
         treasure_chest=choice(treasures),
     )
     prize2 = Prize(
-        name=fake.name(),
-        image=fake.name(),
+        name="Easy Bake Oven",
+        image="https://imgix.bustle.com/fatherly/2017/07/easy-bake-oven.png?w=768&h=416&fit=crop&crop=faces&auto=format%2Ccompress&q=50&dpr=2",
         token_price=10,
         treasure_chest=choice(treasures),
     )
     prize3 = Prize(
-        name=fake.name(),
-        image=fake.name(),
+        name="Polly Pocket Stampin School",
+        image="https://i.etsystatic.com/7557985/r/il/2d820b/4547197612/il_1588xN.4547197612_nkod.jpg",
         token_price=15,
         treasure_chest=choice(treasures),
     )
     prize4 = Prize(
-        name=fake.name(),
-        image=fake.name(),
+        name="Bop it",
+        image="https://i0.wp.com/retropond.com/wp-content/uploads/2021/05/BopIt-Featured.jpg?w=1556&ssl=1",
         token_price=20,
         treasure_chest=choice(treasures),
     )
     prize5 = Prize(
-        name=fake.name(),
-        image=fake.name(),
+        name="Purple Tamagotchi",
+        image="https://m.media-amazon.com/images/I/81rkRztLpjL._AC_SL1500_.jpg",
         token_price=30,
         treasure_chest=choice(treasures),
     )
     prize6 = Prize(
-        name=fake.name(),
-        image=fake.name(),
+        name="Neon Tamagotchi",
+        image="https://m.media-amazon.com/images/I/81Z27dmbVbL._AC_SL1500_.jpg",
         token_price=50,
     )
+    prize7 = Prize(
+        name="White Furby",
+        image="https://i.etsystatic.com/27542120/r/il/8c9213/4813277261/il_1588xN.4813277261_elev.jpg",
+        token_price=50,
+    )
+    prize8 = Prize(
+        name="Mint Green Furby",
+        image="https://i.etsystatic.com/32576510/r/il/30164a/4903191388/il_1588xN.4903191388_qfl4.jpg",
+        token_price=50,
+    )
+    prize9 = Prize(
+        name="SONY WALKMAN D-SJ301 PORTABLE CD PLAYER",
+        image="https://retrospekt.com/cdn/shop/files/PD-VR-1160_1copy.jpg?v=1685973419&width=3200",
+        token_price=80,
+    )
+    prize10 = Prize(
+        name="Nintendo Game Boy",
+        image="https://retrospekt.com/cdn/shop/files/og-2_42b7141a-8699-4d4c-8144-e88561ca7d53.jpg?v=1686078109&width=1400",
+        token_price=100,
+    )
 
-    prizes = [prize1, prize2, prize3, prize4, prize5, prize6]
+    prizes = [
+        prize1,
+        prize2,
+        prize3,
+        prize4,
+        prize5,
+        prize6,
+        prize7,
+        prize8,
+        prize9,
+        prize10,
+    ]
     db.session.add_all(prizes)
 
     # ------------------------------------------------------------|

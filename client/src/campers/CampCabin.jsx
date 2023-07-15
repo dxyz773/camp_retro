@@ -22,6 +22,10 @@ function CampCabin() {
         <button>
           <NavLink to="/lunchbox">Lunchbox</NavLink>
         </button>
+        <br />
+        <button>
+          <NavLink to="/treasure-chest">Treasure Chest</NavLink>
+        </button>
       </div>
     </div>
   );
