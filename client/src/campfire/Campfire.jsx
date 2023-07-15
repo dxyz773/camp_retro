@@ -1,5 +1,5 @@
 function Campfire() {
-  return <div></div>;
+  return <div>Campfire</div>;
 }
 
 export default Campfire;

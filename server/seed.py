@@ -274,24 +274,36 @@ with app.app_context():
 
     lunchbox1 = Lunchbox(
         image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
-        user=choice(users),
+        user_id=1,
         snack=choice(snacks),
         drink=choice(drinks),
     )
     lunchbox2 = Lunchbox(
         image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
-        user=choice(users),
+        user_id=2,
         snack=choice(snacks),
         drink=choice(drinks),
     )
     lunchbox3 = Lunchbox(
         image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
-        user=choice(users),
+        user_id=3,
+        snack=choice(snacks),
+        drink=choice(drinks),
+    )
+    lunchbox4 = Lunchbox(
+        image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
+        user_id=4,
+        snack=choice(snacks),
+        drink=choice(drinks),
+    )
+    lunchbox5 = Lunchbox(
+        image="https://buyrocknroll.rocks/cdn/shop/products/c61284d5-d092-5772-893c-5753c244ea31_1000x.jpg?v=1552155505",
+        user_id=5,
         snack=choice(snacks),
         drink=choice(drinks),
     )
 
-    lunch_boxes = [lunchbox1, lunchbox2, lunchbox3]
+    lunch_boxes = [lunchbox1, lunchbox2, lunchbox3, lunchbox4, lunchbox5]
     db.session.add_all(lunch_boxes)
     # ------------------------------------------------------------|
     # TREASURES

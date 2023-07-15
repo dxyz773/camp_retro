@@ -1,4 +1,4 @@
-function Search({ onSearch, search }) {
+function Search({ handleChange, search }) {
   return (
     <div>
       <form>
@@ -8,7 +8,7 @@ function Search({ onSearch, search }) {
           id="search"
           name="search"
           value={search}
-          onChange={(e) => onSearch(e)}
+          onChange={(e) => handleChange(e)}
         />
       </form>
     </div>

@@ -1,12 +1,13 @@
-import { useNavigate, NavLink } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
 import { useFormik } from "formik";
+import UserContext from "../context/UserContext";
 import * as yup from "yup";
 
-function Login({ updateUser }) {
+function Login() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+  const { updateUser } = useContext(UserContext);
   const schema = yup.object().shape({
     username: yup.string().required("Please enter a username"),
     password: yup.string().required("Please enter a password"),
@@ -21,15 +22,12 @@ function Login({ updateUser }) {
         credentials: "include",
         headers: {
           "content-type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true,
         },
 
         body: JSON.stringify(values),
       }).then((res) => {
         if (res.ok) {
           res.json().then((data) => {
-            console.log(data);
             updateUser(data);
             actions.resetForm();
             navigate("/");
@@ -83,11 +81,6 @@ function Login({ updateUser }) {
           {error ? <label style={{ color: "red" }}>{error}</label> : ""}
         </div>
       </form>
-      <div>
-        <button>
-          <NavLink to="/signup">{`Don't have an account yet? Signup here:`}</NavLink>
-        </button>
-      </div>
     </div>
   );
 }

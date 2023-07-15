@@ -3,9 +3,10 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from config import db, bcrypt
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
+from flask_login import UserMixin
 
 
-class User(db.Model, SerializerMixin):
+class User(db.Model, SerializerMixin, UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, server_default=db.func.now())
