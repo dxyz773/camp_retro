@@ -1,17 +1,18 @@
 function Search({ handleChange, search }) {
   return (
-    <div className="bg-amber-400 py-3 px-6 ">
+    <div className="bg-amber-400 py-3 px-3 mt-2">
       <form>
         <label className="mr-5" htmlFor="search">
           Search for your favorites!
         </label>
         <input
-          className="rounded-md"
-          style={{ width: "275px" }}
+          className="rounded-md py-1 px-16"
+          // style={{ width: "300px" }}
           type="text"
           id="search"
           name="search"
           value={search}
+          placeholder="search here..."
           onChange={(e) => handleChange(e)}
         />
       </form>

@@ -174,7 +174,7 @@ with app.app_context():
         name="Oreo Minis", image="https://cdnimages.opentip.com/full/DOF/DOF-449011.jpg"
     )
     snack3 = Snack(
-        name="Lunchables - Turkey & Cheddar",
+        name="Lunchables",
         image="https://www.kroger.com/product/images/large/front/0004470002455",
     )
     snack4 = Snack(
@@ -209,6 +209,14 @@ with app.app_context():
         name="Rice Krispies Treats",
         image="https://kellogg-h.assetsadobe.com/is/image/content/dam/kelloggs/kna/us/digital-shelf/rice-krispies-treats/00038000110528_C1NB.jpg",
     )
+    snack11 = Snack(
+        name="Blueberry Nutrigrain",
+        image="https://mountainmerchantvt.com/wp-content/uploads/2019/06/nutriblue.jpg",
+    )
+    snack12 = Snack(
+        name="Berry Nutrigrain",
+        image="https://kellogg-h.assetsadobe.com/is/image/content/dam/kelloggs/kna/us/digital-shelf/nutri-grain-bars/00038000597725_C1N1.jpg",
+    )
 
     snacks = [
         snack1,
@@ -221,50 +229,60 @@ with app.app_context():
         snack8,
         snack9,
         snack10,
+        snack11,
+        snack12,
     ]
     db.session.add_all(snacks)
     # ------------------------------------------------------------|
     # DRINKS
     # ------------------------------------------------------------|
     drink1 = Drink(
-        name="Capri Sun Fruit Punch",
-        image="https://d3ldzx7fxfvsfy.cloudfront.net/233/studio/assets/v1687961059496_95364841/CS-FruitPunch-Updated.png",
+        name="Hawaiian Punch",
+        image="https://www.kroger.com/product/images/large/right/0001480000371",
     )
     drink2 = Drink(
         name="Mott's Apple Juice",
         image="https://m.media-amazon.com/images/I/71qosBESVVL.jpg",
     )
     drink3 = Drink(
-        name="Tropicana Orange Juice",
-        image="https://www.webstaurantstore.com/images/products/landscape/702357/2419030.jpg",
+        name="Orange Juice",
+        image="https://ipcdn.freshop.com/resize?url=https://images.freshop.com/00048500018521/0b6093f1ffad4c7865fcc60457d6bf3e_large.png&width=512&type=webp&quality=90",
     )
     drink4 = Drink(
         name="Blueberry Smoothe",
         image="https://assets.bonappetit.com/photos/63a1e0b3c37a58ec105a304e/1:1/w_2560%2Cc_limit/1220-smoothie-blueberry-lede.jpg",
     )
     drink5 = Drink(
-        name="Mango Juicebox",
-        image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCf_JN_TBDhPomXI7uFFy57-VZ-Esm_18jt5xNdKYyzEWU15DcLz9ETkXI2dAP6-FuCFE&usqp=CAU",
+        name="Grape Juice",
+        image="https://grocerylistjamaica.com/wp-content/uploads/2021/11/Juicy-Juice-100-Juice-Grape-200Ml.jpg",
     )
     drink6 = Drink(
         name="Strawberry Smoothie",
-        image="https://www.dinneratthezoo.com/wp-content/uploads/2018/05/strawberry-banana-smoothie-4.jpg",
+        image="https://www.liveeatlearn.com/wp-content/uploads/2019/08/strawberry-smoothie-photo-vert.jpg",
     )
     drink7 = Drink(
         name="Chocolate Yoohoo",
-        image="https://bagelsyourwaycafe.com/wp-content/uploads/2021/05/Yoo-Hoo-Glass-Bottle_640x360.jpg",
+        image="https://storage.googleapis.com/images-cub-prd-9400d55.cub.prd.v8.commerce.mi9cloud.com/product-images/zoom/12658151-61f1-4729-9dc9-8d655d1d0b33.jpeg",
     )
     drink8 = Drink(
-        name="Grape Kool-Aid Jammers",
+        name="Grape Kool-Aid",
         image="https://i5.walmartimages.com/asr/58543e52-8298-4027-91f4-549782ec74c6_1.86bb6330b226e0960867f2c7e30e0339.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF",
     )
     drink9 = Drink(
-        name="Cherry Kool-Aid Jammers",
+        name="Cherry Kool-Aid",
         image="https://i5.walmartimages.com/asr/c42880be-e165-4d37-a86c-4b6a0abacf4a_1.34e439c702d4ba0bce4e5de80287e124.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF",
     )
     drink10 = Drink(
-        name="Tropical Punch Kool-Aid Jammers",
+        name="Tropical Kool-Aid",
         image="https://www.foodservicedirect.com/media/catalog/product/0/0/00043000047293_ws_2_8jpvuhy2jkufgpxy.jpg?width=1200&height=1200&quality=85&fit=bounds",
+    )
+    drink11 = Drink(
+        name="Minute Maid Lemonade ",
+        image="https://m.media-amazon.com/images/I/41hIb4QDivL._SX300_SY300_QL70_FMwebp_.jpg",
+    )
+    drink12 = Drink(
+        name="Sweet Tea",
+        image="https://sugarspunrun.com/wp-content/uploads/2022/05/Easy-sweet-tea-recipe-1-of-1.jpg",
     )
 
     drinks = [
@@ -278,6 +296,8 @@ with app.app_context():
         drink8,
         drink9,
         drink10,
+        drink11,
+        drink12,
     ]
     db.session.add_all(drinks)
 

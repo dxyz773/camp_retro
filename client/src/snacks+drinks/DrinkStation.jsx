@@ -20,12 +20,15 @@ function DrinkStation() {
   const allDrinks = searchedDrinks.map((drink) => (
     <Drink key={drink.id} drink={drink} />
   ));
+  //
 
   return (
-    <div className="bg-cover bg-amber-50">
-      <p>Find your favorites </p>
+    <div className="bg-amber-50 px-5" style={{ height: "150vh" }}>
+      <p className="text-4xl font-semibold pt-5">
+        Stay hydrated! Grab a drink 🥤
+      </p>
       <Search handleChange={handleChange} search={search} />
-      {allDrinks}
+      <div className="grid grid-cols-6 gap-y-2 py-10">{allDrinks}</div>
     </div>
   );
 }

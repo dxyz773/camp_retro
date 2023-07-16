@@ -23,11 +23,17 @@ function SnackBreak() {
     <Snack key={snack.id} snack={snack} />
   ));
   return (
-    <div className="bg-cover bg-amber-50">
-      <p>Find your favorites </p>
+    <div className="bg-amber-50 px-5" style={{ height: "150vh" }}>
+      <p className="text-4xl font-semibold pt-5">Take a snack break 🍎</p>
       <Search handleChange={handleChange} search={search} />
-      {allSnacks}
+      <div
+        className="grid grid-cols-6 gap-y-5
+       py-10"
+      >
+        {allSnacks}
+      </div>
     </div>
+    //
   );
 }
 

@@ -19,15 +19,33 @@ function Snack({ snack }) {
   }
 
   return (
-    <div style={{ display: "inline-block" }} className="hover:scale-110">
+    <div
+      style={{
+        width: "200px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+      className="hover:scale-105"
+    >
       <h4>{snack.name}</h4>
       <img
-        className="shadow-xl rounded-3xl"
+        className="shadow-xl rounded-md  shadow-neutral-400"
         src={snack.image}
-        style={{ width: 160, paddingLeft: "10px" }}
+        alt={snack.name}
+        style={{
+          width: 160,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        }}
       />
       <button
-        className="bg-yellow-400 hover:bg-yellow-300 rounded-3xl py-2 px-6 shadow-xl text-xs uppercase"
+        className="bg-neutral-100 hover:bg-yellow-300 rounded-md py-2 shadow-xl text-xs uppercase tracking-widest"
+        style={{
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
+          width: "160px",
+        }}
         onClick={addSnack}
       >
         Add to Lunchbox

@@ -18,16 +18,33 @@ function Drink({ drink }) {
     );
   }
   return (
-    <div>
+    <div
+      style={{
+        width: "200px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+      className="hover:scale-105"
+    >
       <h4>{drink.name}</h4>
       <img
         src={drink.image}
-        className="shadow-xl rounded-3xl"
-        style={{ width: 170 }}
+        className="shadow-xl rounded-md  shadow-neutral-400"
+        style={{
+          width: 160,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        }}
         alt={drink.name}
       />
       <button
-        className="bg-yellow-400 hover:bg-yellow-300 rounded-3xl py-2 px-6 shadow-xl"
+        className="bg-neutral-100 hover:bg-yellow-300 rounded-md py-2 shadow-xl text-xs uppercase tracking-widest"
+        style={{
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
+          width: "160px",
+        }}
         onClick={addDrink}
       >
         Add to Lunchbox
