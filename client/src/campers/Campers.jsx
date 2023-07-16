@@ -7,15 +7,26 @@ function Campers() {
       .then((data) => setCampers(data));
   }, []);
   const allTheCampers = campers.map((camper) => (
-    <div style={{ width: 160 }} key={camper.id}>
+    <div
+      style={{
+        width: 135,
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "white",
+        alignItems: "center",
+        borderRadius: "2px",
+      }}
+      key={camper.id}
+    >
       <h4>{camper.camp_name}</h4>
+
       <img
         src={camper.image}
-        style={{ width: 100, marginBottom: "5px" }}
-        className="rounded-3xl "
+        style={{ width: 100, marginBottom: "5px", marginTop: "10px" }}
+        className="rounded-sm shadow-md shadow-neutral-800 hover:scale-105"
       />
       <p
-        className="text-xs text-neutral-100"
+        className="text-xs text-neutral-900"
         style={{ paddingLeft: "40px" }}
       >{`@${camper.camper_name}`}</p>
     </div>
@@ -28,15 +39,15 @@ function Campers() {
       <h3>Campers</h3>
 
       <div
-        // className="rotate-12"
         style={{
           display: "grid",
-          transform: "rotate(9deg)",
+          transform: "rotate(9.7deg)",
           gridTemplateColumns: "1fr 1fr 1fr 1fr",
           width: "550px",
-          marginLeft: "545px",
-          marginTop: "50px",
-          rowGap: "20px",
+          marginLeft: "550px",
+          marginTop: "35px",
+          rowGap: "15px",
+          columnGap: "12px",
         }}
       >
         {allTheCampers}
