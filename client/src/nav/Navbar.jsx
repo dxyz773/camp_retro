@@ -6,8 +6,8 @@ function Navbar() {
   const { user } = useContext(UserContext);
   return (
     <nav
-      className="bg-yellow-400 text-md"
-      style={{ display: "flex", gap: "50px" }}
+      className="bg-yellow-400 text-md py-5"
+      style={{ display: "flex", gap: "40px" }}
     >
       <NavLink to="/">| camp-Retro |</NavLink>
       <NavLink to="/camp-cabin">Camp Cabin</NavLink>
@@ -19,7 +19,7 @@ function Navbar() {
       <NavLink to="/drink-station">Drink Station</NavLink>
       <NavLink to="/login">Login</NavLink>
       <p
-        style={{ display: "inline-block" }}
+        style={{ display: "inline-block", marginLeft: "60px" }}
       >{`Welcome, ${user.camper_name}`}</p>
     </nav>
   );
