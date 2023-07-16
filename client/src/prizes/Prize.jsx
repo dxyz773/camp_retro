@@ -21,8 +21,11 @@ function Prize({ prize }) {
   return (
     <div>
       <h4>{prize.name}</h4>
+      <p>{`${prize.token_price} Tokens`}</p>
       <img src={prize.image} style={{ width: 200, borderRadius: "20px" }} />
-      {/* <button onClick={addSnack}>Add to Lunchbox</button> */}
+      <button className="bg-yellow-400 hover:bg-yellow-300 rounded-3xl py-2 px-6 shadow-xl">
+        Get prize
+      </button>
     </div>
   );
 }

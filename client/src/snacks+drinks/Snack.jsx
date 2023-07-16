@@ -21,8 +21,15 @@ function Snack({ snack }) {
   return (
     <div>
       <h4>{snack.name}</h4>
-      <img src={snack.image} style={{ width: 200, borderRadius: "20px" }} />
-      <button className="bg-yellow-400 hover:bg-yellow-300" onClick={addSnack}>
+      <img
+        className="shadow-xl rounded-3xl"
+        src={snack.image}
+        style={{ width: 170 }}
+      />
+      <button
+        className="bg-yellow-400 hover:bg-yellow-300 rounded-3xl py-2 px-6 shadow-xl"
+        onClick={addSnack}
+      >
         Add to Lunchbox
       </button>
     </div>

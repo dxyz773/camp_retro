@@ -39,7 +39,10 @@ function Login() {
     },
   });
   return (
-    <div>
+    <div
+      className=" bg-cover bg-[url('https://images.unsplash.com/photo-1608805875444-e61e4c53c9d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1325&q=80')]"
+      style={{ height: "100vh" }}
+    >
       <form onSubmit={formik.handleSubmit}>
         <div>
           <label htmlFor="username">Username: </label>
