@@ -22,10 +22,14 @@ function Drink({ drink }) {
       <h4>{drink.name}</h4>
       <img
         src={drink.image}
-        style={{ width: 200, borderRadius: "20px" }}
+        className="shadow-xl rounded-3xl"
+        style={{ width: 170 }}
         alt={drink.name}
       />
-      <button className="bg-yellow-400 hover:bg-yellow-300" onClick={addDrink}>
+      <button
+        className="bg-yellow-400 hover:bg-yellow-300 rounded-3xl py-2 px-6 shadow-xl"
+        onClick={addDrink}
+      >
         Add to Lunchbox
       </button>
     </div>

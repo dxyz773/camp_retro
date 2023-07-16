@@ -23,7 +23,7 @@ function SnackBreak() {
     <Snack key={snack.id} snack={snack} />
   ));
   return (
-    <div>
+    <div className="bg-cover bg-amber-50">
       <p>Find your favorites </p>
       <Search handleChange={handleChange} search={search} />
       {allSnacks}

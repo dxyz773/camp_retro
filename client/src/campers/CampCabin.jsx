@@ -6,7 +6,10 @@ function CampCabin() {
   const { user } = useContext(UserContext);
 
   return (
-    <div className="bg-yellow-100 bg-[url">
+    <div
+      className="bg-cover bg-[url('https://images.unsplash.com/photo-1622066737704-c5d990e137fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80')]"
+      style={{ height: "100vh" }}
+    >
       <h2>Camp Cabin</h2>
       <h4 style={{ paddingTop: "50px" }}>
         Welcome to your camp cabin, {user.camper_name}
