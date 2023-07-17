@@ -18,6 +18,7 @@ function Navbar() {
       <NavLink to="/snack-break">Snack Break</NavLink>
       <NavLink to="/drink-station">Drink Station</NavLink>
       <NavLink to="/login">Login</NavLink>
+      <NavLink to="/signup">|Signup</NavLink>
       <p
         style={{ display: "inline-block", marginLeft: "60px" }}
       >{`Welcome, ${user.camper_name}`}</p>

@@ -4,6 +4,7 @@
 import Navbar from "./nav/Navbar";
 import Home from "./home/Home";
 import Login from "./auth/Login";
+import Signup from "./auth/Signup";
 import Campers from "./campers/Campers";
 import CampCabin from "./campers/CampCabin";
 import DrinkStation from "./snacks+drinks/DrinkStation";
@@ -44,6 +45,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/campers" element={<Campers />} />
           <Route path="/camp-cabin" element={<CampCabin />} />
