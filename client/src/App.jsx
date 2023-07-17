@@ -13,6 +13,7 @@ import LunchBox from "./campers/LunchBox";
 import TreasureChest from "./campers/TreasureChest";
 import PrizeRoom from "./prizes/PrizeRoom";
 import Games from "./games/Games";
+import RPC from "./games/RPC";
 
 //----------------------------------------------------------------------------|
 //                            OTHER IMPORTS
@@ -53,6 +54,7 @@ function App() {
           <Route path="/games" element={<Games />} />
           <Route path="/prize-room" element={<PrizeRoom />} />
           <Route path="/campfire" element={<Campfire />} />
+          <Route path="/rpc" element={<RPC />} />
         </Routes>
       </UserContext.Provider>
     </div>
