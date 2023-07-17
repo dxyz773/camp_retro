@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 function RPC() {
   const [message, setMessage] = useState("");
   const rpc = ["rock", "paper", "scissors"];
@@ -14,12 +15,29 @@ function RPC() {
   function RPSGame(userChoice) {
     const computerGenerate = getRandomInt(3);
     const computerChoice = rpc[computerGenerate];
+    const win = "You win!";
+    const lose = "You lose!";
     console.log(`Computer choice: ${computerChoice}`);
     console.log(`User choice: ${userChoice}`);
 
     let drawMessage = () => {
+      let gameMessage;
       if (computerChoice === userChoice) {
-        let gameMessage = "It's a draw!";
+        gameMessage = "It's a draw!";
+        return gameMessage;
+      } else if (
+        (userChoice === "paper" && computerChoice === "rock") ||
+        (userChoice === "rock" && computerChoice === "scissors") ||
+        (userChoice === "scissors" && computerChoice === "paper")
+      ) {
+        gameMessage = win;
+        return gameMessage;
+      } else if (
+        (computerChoice === "paper" && userChoice === " rock") ||
+        (computerChoice === "rock" && userChoice === "scissors") ||
+        (computerChoice === "scissors" && userChoice === "paper")
+      ) {
+        gameMessage = lose;
         return gameMessage;
       }
     };
@@ -35,7 +53,7 @@ function RPC() {
       <button
         className="ml-4"
         onClick={() => {
-          RPSGame(rock);
+          setMessage(RPSGame(rock));
         }}
       >
         Rock
@@ -44,12 +62,16 @@ function RPC() {
         className="ml-4"
         onClick={() => {
           setMessage(RPSGame(paper));
-          console.log(message);
         }}
       >
         Paper
       </button>
-      <button className="ml-4" onClick={() => RPSGame(scissors)}>
+      <button
+        className="ml-4"
+        onClick={() => {
+          setMessage(RPSGame(scissors));
+        }}
+      >
         Scissors
       </button>
       <p>{message ? message : "nothing here"}</p>
