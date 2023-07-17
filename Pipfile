@@ -15,6 +15,7 @@ flask-bcrypt = "*"
 flask-cors = "*"
 flask-session = "*"
 flask-login = "*"
+ipdb = "*"
 
 [dev-packages]
 

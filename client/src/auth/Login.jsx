@@ -43,47 +43,71 @@ function Login() {
       className=" bg-cover bg-[url('https://images.unsplash.com/photo-1608805875444-e61e4c53c9d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1325&q=80')]"
       style={{ height: "100vh" }}
     >
-      <form onSubmit={formik.handleSubmit}>
-        <div>
-          <label htmlFor="username">Username: </label>
-          <input
-            type="text"
-            name="username"
-            id="username"
-            value={formik.values.username}
-            onChange={formik.handleChange}
-            autoComplete="username"
-            onBlur={formik.handleBlur}
-            placeholder="Username here.."
-          />
-          {formik.touched.username && formik.errors.username ? (
-            <h5 style={{ color: "red" }}>{formik.errors.username}</h5>
-          ) : (
-            ""
-          )}
+      <div className="flex flex-col pt-40 items-center">
+        <div className="text-4xl ml-32 mb-10 font-semibold">
+          <h3>Login into camp</h3>
         </div>
         <div>
-          <label htmlFor="login_password">Password: </label>
-          <input
-            type="password"
-            name="password"
-            id="login_password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            placeholder="Password"
-          />
-          {formik.touched.password && formik.errors.password ? (
-            <h5 style={{ color: "red" }}>{formik.errors.password}</h5>
-          ) : (
-            ""
-          )}
+          <form onSubmit={formik.handleSubmit}>
+            <div className="my-3">
+              <label
+                className="text-2xl font-semibold text-neutral-800 mr-4 tracking-wide"
+                htmlFor="username"
+              >
+                Username:
+              </label>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                value={formik.values.username}
+                onChange={formik.handleChange}
+                autoComplete="username"
+                onBlur={formik.handleBlur}
+                placeholder="Username here.."
+                className="py-3 px-3 w-96 rounded-full placeholder:px-3 shadow-md placeholder:text-neutral-500"
+              />
+              {formik.touched.username && formik.errors.username ? (
+                <h5 style={{ color: "red" }}>{formik.errors.username}</h5>
+              ) : (
+                ""
+              )}
+            </div>
+            <div>
+              <label
+                className="text-2xl font-semibold text-neutral-800 mr-4 tracking-wide"
+                htmlFor="login_password"
+              >
+                Password:
+              </label>
+              <input
+                type="password"
+                name="password"
+                id="login_password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="password..."
+                className="py-3 px-3 w-96 rounded-full placeholder:px-3 shadow-md placeholder:text-neutral-500"
+              />
+              {formik.touched.password && formik.errors.password ? (
+                <h5 style={{ color: "red" }}>{formik.errors.password}</h5>
+              ) : (
+                ""
+              )}
+            </div>
+            <div style={{ marginLeft: "151px" }}>
+              <input
+                style={{ width: "382px" }}
+                className="bg-yellow-400 rounded-2xl px-30 py-1 mt-3 hover:bg-yellow-300 transition-all duration-300 shadow-md"
+                type="submit"
+                value="Login"
+              />
+              {error ? <label style={{ color: "red" }}>{error}</label> : ""}
+            </div>
+          </form>
         </div>
-        <div>
-          <input type="submit" value="Login" />
-          {error ? <label style={{ color: "red" }}>{error}</label> : ""}
-        </div>
-      </form>
+      </div>
     </div>
   );
 }

@@ -13,7 +13,7 @@ function Home() {
         camp Retro
       </h1>
       <button
-        className="bg-yellow-400 hover:bg-yellow-300 rounded-3xl py-3 px-6 shadow-xl"
+        className="bg-yellow-400 hover:bg-yellow-300 rounded-3xl py-3 px-6 shadow-xl transition-all duration-300"
         style={{
           display: "flex",
           marginLeft: "auto",

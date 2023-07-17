@@ -39,7 +39,7 @@ function Drink({ drink }) {
         alt={drink.name}
       />
       <button
-        className="bg-neutral-100 hover:bg-yellow-300 rounded-md py-2 shadow-xl text-xs uppercase tracking-widest"
+        className="bg-neutral-100 hover:bg-yellow-300 rounded-md py-2 shadow-xl text-xs uppercase tracking-widest transition-all duration-300"
         style={{
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
