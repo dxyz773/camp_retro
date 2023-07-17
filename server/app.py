@@ -19,6 +19,7 @@ from flask_login import (
     login_required,
     current_user,
 )
+import ipdb
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -135,6 +136,11 @@ class CheckSession(Resource):
             user.to_dict(rules=("-_password_hash",)),
             200,
         )
+        # if current_user.is_authenticated:
+        #     user = current_user.to_dict()
+        #     ipdb.set_trace()
+        #     return make_response(user, 200)
+        # return make_response("Error, Unauthorized", 401)
 
 
 api.add_resource(CheckSession, "/check_session")

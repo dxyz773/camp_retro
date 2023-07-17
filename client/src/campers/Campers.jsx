@@ -23,7 +23,7 @@ function Campers() {
       <img
         src={camper.image}
         style={{ width: 100, marginBottom: "5px", marginTop: "10px" }}
-        className="rounded-sm shadow-md shadow-neutral-800 hover:scale-105"
+        className="rounded-sm shadow-md shadow-neutral-800 hover:scale-105 transition-all duration-300"
       />
       <p
         className="text-xs text-neutral-900"

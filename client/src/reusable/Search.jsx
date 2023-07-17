@@ -6,7 +6,7 @@ function Search({ handleChange, search }) {
           Search for your favorites!
         </label>
         <input
-          className="rounded-md py-1 px-16"
+          className="rounded-md py-1 px-16 bg-amber-100 placeholder:text-stone-400"
           // style={{ width: "300px" }}
           type="text"
           id="search"
