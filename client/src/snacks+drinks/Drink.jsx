@@ -1,21 +1,16 @@
 import UserContext from "../context/UserContext";
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
 
 function Drink({ drink }) {
   const { user } = useContext(UserContext);
-  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
   function addDrink() {
     fetch(`http://127.0.0.1:5555/lunch_boxes/${user.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ drink_id: drink.id }),
-    }).then((res) =>
-      res.json().then(() => {
-        navigate("/lunchbox");
-      })
-    );
+    }).then(() => setMessage("ADDED!"));
   }
   return (
     <div
@@ -47,7 +42,7 @@ function Drink({ drink }) {
         }}
         onClick={addDrink}
       >
-        Add to Lunchbox
+        {message ? message : "Add to Lunchbox"}
       </button>
     </div>
   );

@@ -7,22 +7,31 @@ function Home() {
       style={{ height: "100vh" }}
     >
       <h1
-        className="text-5xl text-yellow-500 font-semibold text-center"
+        className="text-5xl text-yellow-400 font-semibold text-center"
         style={{ paddingTop: "50px" }}
       >
         camp Retro
       </h1>
-      <button
-        className="bg-yellow-400 hover:bg-yellow-300 rounded-3xl py-3 px-6 shadow-xl transition-all duration-300"
-        style={{
-          display: "flex",
-          marginLeft: "auto",
-          marginRight: "auto",
-          marginTop: "80px",
-        }}
-      >
-        <NavLink to="/login">Login</NavLink>
-      </button>
+      <div className="flex justify-center gap-20 mt-20 pr-4">
+        <button
+          className="bg-yellow-400 hover:bg-yellow-300 rounded-3xl py-3 px-12 shadow-xl transition-all duration-300"
+          style={{
+            display: "flex",
+            marginTop: "80px",
+          }}
+        >
+          <NavLink to="/login">Login</NavLink>
+        </button>
+        <button
+          className="bg-orange-400 hover:bg-orange-300 rounded-3xl py-3 px-12 shadow-md transition-all duration-300 self-start"
+          style={{
+            display: "flex",
+            marginTop: "80px",
+          }}
+        >
+          <NavLink to="/signup">Signup</NavLink>
+        </button>
+      </div>
     </div>
   );
 }

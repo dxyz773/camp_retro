@@ -22,15 +22,23 @@ function CampCabin() {
       <div>
         <p>Bio:{user.bio}</p>
       </div>
-      <div>
-        <img src={user.lunch_box[0].image} alt="lunchbox" width={200} />
-        <button className="bg-yellow-400 hover:bg-yellow-300 transition-all duration-300">
-          <NavLink to="/lunchbox">Lunchbox</NavLink>
-        </button>
-        <br />
-        <button className="bg-yellow-400 hover:bg-yellow-300 transition-all duration-300">
-          <NavLink to="/treasure-chest">Treasure Chest</NavLink>
-        </button>
+      <div className="w-fit">
+        <NavLink to="/lunchbox">
+          <img
+            src={user.lunch_box[0].image}
+            alt="lunchbox"
+            width={200}
+            className="rounded-2xl"
+          />
+        </NavLink>
+        <NavLink to="/treasure-chest">
+          <img
+            src={user.treasure_chest[0].image}
+            alt="lunchbox"
+            width={200}
+            className="rounded-2xl"
+          />
+        </NavLink>
       </div>
     </div>
   );
