@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
 import Search from "../reusable/Search";
 import Prize from "./Prize";
-import { useEffect, useState } from "react";
+
 function PrizeRoom() {
   const [prizes, setPrizes] = useState([]);
   const [search, setSearch] = useState("");
@@ -22,10 +23,18 @@ function PrizeRoom() {
   ));
 
   return (
-    <div>
-      <p>Find your favorite prizes! </p>
+    <div
+      className="bg-cover bg-[url('https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80')] px-5"
+      style={{ height: "200vh" }}
+    >
+      <p className="text-4xl font-semibold pt-5">Prize Room </p>
       <Search handleChange={handleChange} search={search} />
-      {allPrizes}
+      <div
+        className="grid grid-cols-6 gap-y-5
+       py-10 bg-pink-500 mb-2 mt-6 bg-opacity-50 rounded-sm"
+      >
+        {allPrizes}
+      </div>
     </div>
   );
 }

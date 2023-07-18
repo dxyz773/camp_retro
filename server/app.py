@@ -240,7 +240,7 @@ class LunchBoxById(Resource):
             db.session.add(lunch_box)
             db.session.commit()
         except:
-            abort(422, "Errors updading Lunchbox")
+            abort(422, "Errors updating Lunchbox")
         return make_response(
             lunch_box.to_dict(
                 only=(
@@ -328,6 +328,24 @@ class TreasureChestById(Resource):
         )
         return make_response(treasure_dict, 200)
 
+    # def patch(self, id):
+    #     treasure = TreasureChest.query.filter_by(id=id).first()
+    #     data = request.get_json()
+    #     if not treasure:
+    #         abort(404, "Treasure not found")
+    #     try:
+    #         for attr in data:
+    #             setattr(treasure, attr, data.get(attr))
+
+    #         db.session.add(treasure)
+    #         db.session.commit()
+    #     except:
+    #         abort(422, "Errors updating Treasure Chest")
+    #     return make_response(
+    #         treasure.to_dict(),
+    #         200,
+    #     )
+
 
 api.add_resource(TreasureChestById, "/treasure_chests/<int:id>")
 
@@ -352,6 +370,29 @@ class Prizes(Resource):
             for prize in Prize.query.all()
         ]
         return make_response(prizes, 200)
+
+    def post(self):
+        data = request.get_json()
+
+        try:
+            new_prize = Prize(
+                name=data.get("name"),
+                image=data.get("image"),
+                token_price=data.get("token_price"),
+                treasure_chest_id=data.get("treasure_chest_id"),
+            )
+
+            db.session.add(new_prize)
+            db.session.commit()
+
+        except:
+            return make_response({"errors": ["validation errors"]}, 400)
+
+        response = make_response(
+            new_prize.to_dict(),
+            201,
+        )
+        return response
 
 
 api.add_resource(Prizes, "/prizes")

@@ -7,7 +7,10 @@ function Navbar() {
   return (
     <nav className="bg-yellow-400 text-md py-5 flex gap-7 items-center">
       <NavLink className="ml-2" to="/">
-        |camp-Retro|
+        <img
+          src="https://static.vecteezy.com/system/resources/previews/013/666/396/original/groovy-retro-flower-png.png"
+          className="w-14 shadow-md rounded-full bg-yellow-300 hover:rotate-6 transition-all duration-100"
+        />
       </NavLink>
       <NavLink
         className="hover:text-indigo-600 transition-all duration-200"
