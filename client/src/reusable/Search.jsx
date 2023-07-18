@@ -1,6 +1,6 @@
 function Search({ handleChange, search }) {
   return (
-    <div className="bg-amber-400 py-3 px-3 mt-2">
+    <div className="bg-amber-400 py-3 px-3 mt-2 rounded-sm">
       <form>
         <label className="mr-5" htmlFor="search">
           Search for your favorites!

@@ -15,13 +15,8 @@ function Snack({ snack }) {
 
   return (
     <div
-      style={{
-        width: "200px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-      className="hover:scale-105"
+      style={{ width: "200px" }}
+      className="hover:scale-105 transition-all duration-200 flex flex-col items-center"
     >
       <h4>{snack.name}</h4>
       <img
