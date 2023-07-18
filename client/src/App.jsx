@@ -56,7 +56,7 @@ function App() {
           <Route path="/games" element={<Games />} />
           <Route path="/prize-room" element={<PrizeRoom />} />
           <Route path="/campfire" element={<Campfire />} />
-          <Route path="/rpc" element={<RPC />} />
+          <Route path="/rock-paper-scissors" element={<RPC />} />
         </Routes>
       </UserContext.Provider>
     </div>

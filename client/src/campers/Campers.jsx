@@ -8,14 +8,7 @@ function Campers() {
   }, []);
   const allTheCampers = campers.map((camper) => (
     <div
-      style={{
-        width: 135,
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "white",
-        alignItems: "center",
-        borderRadius: "2px",
-      }}
+      className="bg-neutral-50 rounded-sm flex flex-col items-center px-2 w-fit"
       key={camper.id}
     >
       <h4>{camper.camp_name}</h4>
@@ -25,10 +18,7 @@ function Campers() {
         style={{ width: 100, marginBottom: "5px", marginTop: "10px" }}
         className="rounded-sm shadow-md shadow-neutral-800 hover:scale-105 transition-all duration-300"
       />
-      <p
-        className="text-xs text-neutral-900"
-        style={{ paddingLeft: "40px" }}
-      >{`@${camper.username}`}</p>
+      <p className="text-xs text-neutral-900 self-end">{`@${camper.username}`}</p>
     </div>
   ));
   return (
@@ -49,19 +39,7 @@ function Campers() {
           Campers
         </h3>
 
-        <div
-          style={{
-            display: "grid",
-            transform: "rotate(9.7deg)",
-            gridTemplateColumns: "1fr 1fr 1fr 1fr",
-            width: "550px",
-            rowGap: "15px",
-            position: "absolute",
-            columnGap: "12px",
-            top: 55,
-            right: 315,
-          }}
-        >
+        <div className="grid grid-cols-4 w-fit gap-3 absolute top-14 rotate-12 right-80">
           {allTheCampers}
         </div>
         <img

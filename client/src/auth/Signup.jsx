@@ -44,7 +44,7 @@ function Signup() {
       className=" bg-cover bg-[url('https://images.unsplash.com/photo-1509931801034-6fb72ce134f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1698&q=80')]"
       style={{ height: "100vh" }}
     >
-      <div className="flex flex-col p-12 bg-lime-200 rounded-3xl bg-opacity-80 w-6/12">
+      <div className="flex flex-col p-12 bg-purple-200 rounded-3xl bg-opacity-80 w-6/12">
         <div className="text-4xl ml-32 mb-10 font-semibold">
           <h3 className="tracking-wide">🏕️🌲🌳 Signup 🌼🌻✌🏾</h3>
         </div>
