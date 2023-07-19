@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 function Campers() {
   const [campers, setCampers] = useState([]);
   useEffect(() => {
-    fetch("http://127.0.0.1:5555/users")
+    fetch("/api/users")
       .then((res) => res.json())
       .then((data) => setCampers(data));
   }, []);

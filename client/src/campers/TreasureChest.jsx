@@ -1,14 +1,8 @@
 import UserContext from "../context/UserContext";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 function TreasureChest() {
-  const { user, updateUser } = useContext(UserContext);
-
-  useEffect(() => {
-    fetch("http://127.0.0.1:5555/check_session")
-      .then((res) => res.json())
-      .then((data) => updateUser(data));
-  }, []);
+  const { user } = useContext(UserContext);
 
   const allTreasure = user.treasure_chest[0].prizes.map((prize) => (
     <div key={prize.id} className="flex flex-col">

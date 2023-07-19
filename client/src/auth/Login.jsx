@@ -17,7 +17,7 @@ function Login() {
     initialValues: { username: "", password: "" },
     validationSchema: schema,
     onSubmit: (values, actions) => {
-      fetch("http://127.0.0.1:5555/login", {
+      fetch("/api/login", {
         method: "POST",
         credentials: "include",
         headers: {

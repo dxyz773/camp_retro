@@ -6,7 +6,7 @@ function DrinkStation() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5555/drinks")
+    fetch("/api/drinks")
       .then((res) => res.json())
       .then((data) => setDrinks(data));
   }, []);

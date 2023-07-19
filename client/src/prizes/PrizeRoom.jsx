@@ -7,7 +7,7 @@ function PrizeRoom() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5555/prizes")
+    fetch("/api/prizes")
       .then((res) => res.json())
       .then((data) => setPrizes(data));
   }, []);

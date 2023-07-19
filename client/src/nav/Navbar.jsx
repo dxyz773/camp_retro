@@ -1,9 +1,14 @@
 import { NavLink } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+  function handleLogout() {
+    fetch("/api/logout").then(navigate("/"));
+  }
   return (
     <nav className="bg-yellow-400 text-md py-5 flex gap-7 items-center">
       <NavLink className="ml-2" to="/">
@@ -54,6 +59,7 @@ function Navbar() {
       >
         Drink Station
       </NavLink>
+
       <div>
         <NavLink
           className="hover:text-indigo-600 transition-all duration-200"
@@ -68,7 +74,16 @@ function Navbar() {
           Signup
         </NavLink>
       </div>
-      <p className="ml-5 bg-neutral-100 rounded-xl py-2 pr-20 px-3">{`Welcome, ${user.camper_name}`}</p>
+
+      <p className="ml-5 bg-neutral-100 rounded-xl py-2 pl-5 pr-10">
+        Welcome to camp!
+      </p>
+      <button
+        className="hover:text-indigo-600 transition-all duration-200"
+        onClick={handleLogout}
+      >
+        Logout
+      </button>
     </nav>
   );
 }
