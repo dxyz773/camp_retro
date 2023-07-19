@@ -7,10 +7,10 @@ function Home() {
       style={{ height: "100vh" }}
     >
       <h1
-        className="text-5xl text-yellow-400 font-semibold text-center"
-        style={{ paddingTop: "50px" }}
+        className="text-yellow-300 font-semibold text-center tracking-tighter text-9xl antialiased"
+        style={{ paddingTop: "50px", textShadow: "10px 10px 5px #404040" }}
       >
-        camp Retro
+        Camp Retro
       </h1>
       <div className="flex justify-center gap-20 mt-20 pr-4">
         <button

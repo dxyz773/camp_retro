@@ -31,7 +31,7 @@ function PrizeRoom() {
       <Search handleChange={handleChange} search={search} />
       <div
         className="grid grid-cols-6 gap-y-5
-       py-10 bg-pink-500 mb-2 mt-6 bg-opacity-50 rounded-sm"
+       py-10 bg-stone-100 mb-2 mt-6 bg-opacity-60 rounded-sm"
       >
         {allPrizes}
       </div>
