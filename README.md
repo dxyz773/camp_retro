@@ -1,8 +1,10 @@
-# 🌲🌖 camp retro 🏕️
+<img src="images/Red & Green Retro Hippie y2k Minimalist Curved Text Circular Fashion Business Logo.png">
 
-Camp Retro is an interactive game where a user signs up as a camper at Camp Retro, plays games, gains tokens, and wins prizes.
+---
 
-✌🏾 No camp counselors. Just campires, games, and retro fun!
+<h3 style="color:#f5f5f5"> Camp Retro is an interactive game where a user signs up as a camper at Camp Retro, plays games, gains tokens, and wins prizes. 🏕️🌲</h3>
+
+✌🏾 No camp counselors. Just games & retro fun! 🌖
 
 ---
 
@@ -24,17 +26,26 @@ Camp Retro is an interactive game where a user signs up as a camper at Camp Retr
 3. Open a new terminal in IDE
 4. COPY each instruction below. PASTE in the terminal. Press ENTER/RETURN
 
+5. Install Dependencies
+
 ```
 pipenv install
 ```
+
+6. Enter the shell
 
 ```
 pipenv shell
 ```
 
+7. Start server
+
 ```
 honcho start
 ```
 
-7. Copy url from the terminal and paste in the web browser
-8. Welcome, Camper! Enjoy!
+8. COPY URL from the terminal and PASTE in the web browser
+
+---
+
+<h2 style="color:#fde047"><span style="color:orange"> ★</span> Welcome, Camper! Enjoy!<span style="color:orange"> ☆</span> </h2>
