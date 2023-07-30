@@ -6,7 +6,7 @@ function Prize({ prize }) {
   const [message, setMessage] = useState("");
 
   function addPrize() {
-    fetch("http://127.0.0.1:5555/prizes", {
+    fetch("/api/prizes", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

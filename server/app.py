@@ -84,7 +84,7 @@ class Signup(Resource):
         return response
 
 
-api.add_resource(Signup, "/signup")
+api.add_resource(Signup, "/api/signup")
 
 
 # ---------------------------------------------------------------------------|
@@ -109,14 +109,14 @@ class Login(Resource):
             return {"error": "401 Unauthorized"}, 401
 
 
-api.add_resource(Login, "/login")
+api.add_resource(Login, "/api/login")
 
 # ---------------------------------------------------------------------------|
 #                               LOGOUT
 # ---------------------------------------------------------------------------|
 
 
-@app.route("/logout", methods=["POST"])
+@app.route("/api/logout", methods=["GET"])
 @login_required
 def logout():
     logout_user()
@@ -130,20 +130,19 @@ def logout():
 
 class CheckSession(Resource):
     def get(self):
-        user = User.query.filter_by(id=8).first()
-        login_user(user, remember=True)
-        return make_response(
-            user.to_dict(rules=("-_password_hash",)),
-            200,
-        )
-        # if current_user.is_authenticated:
-        #     user = current_user.to_dict()
-        #     ipdb.set_trace()
-        #     return make_response(user, 200)
-        # return make_response("Error, Unauthorized", 401)
+        # user = User.query.filter_by(id=8).first()
+        # login_user(user, remember=True)
+        # return make_response(
+        #     user.to_dict(rules=("-_password_hash",)),
+        #     200,
+        # )
+        if current_user.is_authenticated:
+            user = current_user.to_dict()
+            return make_response(user, 200)
+        return make_response("Error, Unauthorized", 401)
 
 
-api.add_resource(CheckSession, "/check_session")
+api.add_resource(CheckSession, "/api/check_session")
 
 
 # ---------------------------------------------------------------------------|
@@ -161,7 +160,7 @@ class Users(Resource):
         return make_response(users, 200)
 
 
-api.add_resource(Users, "/users")
+api.add_resource(Users, "/api/users")
 
 
 class UserById(Resource):
@@ -199,7 +198,7 @@ class UserById(Resource):
         return make_response({}, 200)
 
 
-api.add_resource(UserById, "/users/<int:id>")
+api.add_resource(UserById, "/api/users/<int:id>")
 
 
 # ---------------------------------------------------------------------------|
@@ -258,7 +257,7 @@ class LunchBoxById(Resource):
         )
 
 
-api.add_resource(LunchBoxById, "/lunch_boxes/<int:id>")
+api.add_resource(LunchBoxById, "/api/lunch_boxes/<int:id>")
 # ---------------------------------------------------------------------------|
 #                                  SNACKS
 # ---------------------------------------------------------------------------|
@@ -272,7 +271,7 @@ class Snacks(Resource):
         return make_response(snacks, 200)
 
 
-api.add_resource(Snacks, "/snacks")
+api.add_resource(Snacks, "/api/snacks")
 
 
 class SnackById(Resource):
@@ -284,7 +283,7 @@ class SnackById(Resource):
         return make_response(snack_dict, 200)
 
 
-api.add_resource(SnackById, "/snacks/<int:id>")
+api.add_resource(SnackById, "/api/snacks/<int:id>")
 
 # ---------------------------------------------------------------------------|
 #                                 DRINKS
@@ -299,7 +298,7 @@ class Drinks(Resource):
         return make_response(drinks, 200)
 
 
-api.add_resource(Drinks, "/drinks")
+api.add_resource(Drinks, "/api/drinks")
 
 
 class DrinkById(Resource):
@@ -311,7 +310,7 @@ class DrinkById(Resource):
         return make_response(drink_dict, 200)
 
 
-api.add_resource(DrinkById, "/drinks/<int:id>")
+api.add_resource(DrinkById, "/api/drinks/<int:id>")
 
 
 # ---------------------------------------------------------------------------|
@@ -347,7 +346,7 @@ class TreasureChestById(Resource):
     #     )
 
 
-api.add_resource(TreasureChestById, "/treasure_chests/<int:id>")
+api.add_resource(TreasureChestById, "/api/treasure_chests/<int:id>")
 
 # ---------------------------------------------------------------------------|
 #                             PRIZES
@@ -395,7 +394,7 @@ class Prizes(Resource):
         return response
 
 
-api.add_resource(Prizes, "/prizes")
+api.add_resource(Prizes, "/api/prizes")
 
 
 class PrizeById(Resource):
@@ -444,7 +443,7 @@ class PrizeById(Resource):
         )
 
 
-api.add_resource(PrizeById, "/prizes/<int:id>")
+api.add_resource(PrizeById, "/api/prizes/<int:id>")
 
 
 # ---------------------------------------------------------------------------|
@@ -512,7 +511,7 @@ class Games(Resource):
         return response
 
 
-api.add_resource(Games, "/games")
+api.add_resource(Games, "/api/games")
 
 
 class GameById(Resource):
@@ -572,7 +571,7 @@ class GameById(Resource):
         )
 
 
-api.add_resource(GameById, "/games/<int:id>")
+api.add_resource(GameById, "/api/games/<int:id>")
 
 
 # ---------------------------------------------------------------------------|
@@ -588,7 +587,7 @@ class TokensById(Resource):
         return make_response(token_dict, 200)
 
 
-api.add_resource(TokensById, "/tokens/<int:id>")
+api.add_resource(TokensById, "/api/tokens/<int:id>")
 
 # ---------------------------------------------------------------------------|
 #                            CAMPFIRE STORIES
@@ -601,7 +600,7 @@ class CampfireStories(Resource):
         return make_response(stories, 200)
 
 
-api.add_resource(CampfireStories, "/campfire_stories")
+api.add_resource(CampfireStories, "/api/campfire_stories")
 
 
 class CampfireStoryById(Resource):
@@ -614,7 +613,7 @@ class CampfireStoryById(Resource):
         return make_response(story_dict, 200)
 
 
-api.add_resource(CampfireStoryById, "/campfire_stories/<int:id>")
+api.add_resource(CampfireStoryById, "/api/campfire_stories/<int:id>")
 
 
 if __name__ == "__main__":

@@ -28,7 +28,7 @@ function App() {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5555/check_session")
+    fetch("/api/check_session")
       .then((res) => res.json())
       .then((data) => {
         setUser(data);

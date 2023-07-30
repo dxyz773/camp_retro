@@ -17,7 +17,7 @@ function Signup() {
     initialValues: { username: "", password: "" },
     validationSchema: schema,
     onSubmit: (values, actions) => {
-      fetch("http://127.0.0.1:5555/signup", {
+      fetch("/api/signup", {
         method: "POST",
         credentials: "include",
         headers: {

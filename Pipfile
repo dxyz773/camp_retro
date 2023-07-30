@@ -16,6 +16,8 @@ flask-cors = "*"
 flask-session = "*"
 flask-login = "*"
 ipdb = "*"
+gunicorn = "*"
+honcho = "*"
 
 [dev-packages]
 

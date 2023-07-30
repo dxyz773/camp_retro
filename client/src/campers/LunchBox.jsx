@@ -1,14 +1,9 @@
 import UserContext from "../context/UserContext";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 function LunchBox() {
-  const { user, updateUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
-  useEffect(() => {
-    fetch("http://127.0.0.1:5555/check_session")
-      .then((res) => res.json())
-      .then((data) => updateUser(data));
-  }, []);
   return (
     <div
       className="bg-cover bg-[url('https://images.unsplash.com/photo-1600160797457-f3194244bce3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80')]"
