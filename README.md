@@ -6,12 +6,35 @@ Camp Retro is an interactive game where a user signs up as a camper at Camp Retr
 
 ---
 
-A Camp Retro User can:
+### A Camp Retro User can:
 
-1. Take a break from doom scrolling social media and Sign up for an adventure at Camp Retro
-2. Create a Camper profile (camper name, profile image & bio) to showcase their unique personality
-3. Fill their lunchbox with snacks and a drink for a long day of adventures
-4. Play childhood games like Rock Paper Scissors, Tic-Tac-Toe and Treasure Hunt coming soon
-5. Beat the games and win magic tokens
-6. Cash in those tokens for nostalgic prizes to store in their personal Treasure Chest
-7. Relax after a long day of games with smores and campfire stories
+- Take a break from doom scrolling social media and Sign up for an adventure at Camp Retro
+- Create a Camper profile to showcase their unique personality
+- Fill their lunchbox with snacks and a drink for a long day of adventures
+- Play childhood games like Rock Paper Scissors (more games coming soon!)
+- Beat the games and win magic tokens
+- Cash in those tokens for nostalgic prizes
+
+---
+
+## Instructions: Starting the App
+
+1. Fork Camp Retro repo
+2. Git clone your forked copy of Camp Retro to your local environment. Open in your IDE
+3. Open a new terminal in IDE
+4. COPY each instruction below. PASTE in the terminal. Press ENTER/RETURN
+
+```
+pipenv install
+```
+
+```
+pipenv shell
+```
+
+```
+honcho start
+```
+
+7. Copy url from the terminal and paste in the web browser
+8. Welcome, Camper! Enjoy!
