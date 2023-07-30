@@ -4,7 +4,7 @@
 
 <h3 style="color:#f5f5f5"> Camp Retro is an interactive game where a user signs up as a camper at Camp Retro, plays games, gains tokens, and wins prizes. 🏕️🌲</h3>
 
-✌🏾 No camp counselors. Just games & retro fun! 🌖
+#### ✌🏾 No camp counselors. Just games & retro fun! 😃
 
 ---
 
