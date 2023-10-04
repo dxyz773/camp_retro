@@ -46,6 +46,12 @@ honcho start
 
 8. COPY URL from the terminal and PASTE in the web browser
 
+9. To QUIT honcho server
+
+```
+q
+```
+
 ---
 
 <h2 style="color:#fde047"><span style="color:orange"> ★</span> Welcome, Camper! Enjoy!<span style="color:orange"> ☆</span> </h2>
